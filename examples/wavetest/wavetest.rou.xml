@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<routes>
+	<vType id="carA" accel="5.0" decel="10.0"  length="2.5" minGap="2.5" maxSpeed="30.0" sigma="0.5" color="1,1,0"/>
+	<route id="route0" edges="D1 D2 D3 D4 D5 D6 D7 D8"/>
+	<flow id="flow0" type="carA" route="route0" begin="0" period="5" number="50"/>
+</routes>
