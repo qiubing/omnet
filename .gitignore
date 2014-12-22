@@ -1,23 +1,23 @@
-src/Makefile
-src/*.so
-src/**/*_m.h
-src/**/*_m.cc
+#src/Makefile
+#src/*.so
+#src/**/*_m.h
+#src/**/*_m.cc
 
-doc/doxy
-doc/neddoc
+#doc/doxy
+#doc/neddoc
 
-/run
-/debug
-/memcheck
+#/run
+#/debug
+#/memcheck
 
-/out
+#/out
 
-tests/**/results
-tests/**/.tkenvrc
-tests/**/out.tmp
-tests/**/err.tmp
+#tests/**/results
+#tests/**/.tkenvrc
+#tests/**/out.tmp
+#tests/**/err.tmp
 
-examples/**/results
-examples/**/.tkenvrc
-examples/**/valgrind.out
+#examples/**/results
+#examples/**/.tkenvrc
+#examples/**/valgrind.out
 examples/wavetest/core
