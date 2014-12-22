@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<!-- debug config -->
+<launch>
+	<copy file="wavetest.net.xml" />
+	<copy file="wavetest.rou.xml" />
+	<copy file="wavetest.sumo.cfg" type="config" />
+</launch>
+
