@@ -32,6 +32,11 @@ void AppTest1::initialize(int stage){
         myMac = FindModule<WaveAppToMac1609_4Interface*>::findSubModule(getParentModule());
         ASSERT(myMac);
 
+        /*register the record signal*/
+        hopLimitSignal = registerSignal("hopLimit");
+        delaySignal = registerSignal("delay");
+        distanceSignal = registerSignal("distance");
+
         sentWSM = par("sentWSM").boolValue();
         sentWSA = par("sentWSA").boolValue();
         lastDroveAt = simTime();
@@ -41,7 +46,8 @@ void AppTest1::initialize(int stage){
         isProvider = true;
         channelNum = -1;
         serial = 1;
-        cycleTime = 0.0;
+        posFlag = false;
+        positionRoute = par("positionRoute").boolValue();
 
         /*get the car move status*/
         carMove.setCarId(myId);
@@ -53,21 +59,92 @@ void AppTest1::initialize(int stage){
         nextWSMEvent = new cMessage("next WSM Event");
         updatePOSEvent = new cMessage("next update position Event");
 
+        sendInterval = par("SendInterval").doubleValue();
         //simulate asynchronous channel access
         double maxOffset = par("maxOffset").doubleValue();
         //double offSet = dblrand()*(par("WSAInterval").doubleValue()/2);
         //offSet = offSet + floor(offSet/0.050)*0.050;
         double offSet = dblrand()*0.01;//[0,0.025)
         individualOffset = dblrand() * maxOffset;
+        /*statistics the send times*/
+        sendCount = 0;
 
-        /*send message to the Id is 6 */
+        //stats
+        statsReceivedBroadcasts = 0;
+        statsReceivedUnicast = 0;
+        statsSendBroadcast = 0;
+        statsSendUnicast = 0;
+
+        /*the carId 0 send message to the carId 20 */
+
+        /*
         if(myId == 0)
         {
-            cycleTime = 3*individualOffset + 0.1;
-            timeEvent = new cMessage("time Event",SEND_UNICAST_EVENT);
-            scheduleAt(simTime() + 43.00 + individualOffset,timeEvent);
+            unicastEvent = new cMessage("time Event",SEND_UNICAST_EVENT);
+            unicastEvent->setSrcProcId(myId);
+            double offset0 = dblrand()*0.10;
+            scheduleAt(130.00 + offset0 + individualOffset,unicastEvent);
         }
 
+
+        if(myId == 1)
+        {
+            unicastEvent = new cMessage("time Event",SEND_UNICAST_EVENT);
+            unicastEvent->setSrcProcId(myId);
+            double offset1 = 0.10 + dblrand()*0.10;
+            scheduleAt(120.00 + offset1 + individualOffset,unicastEvent);
+        }
+
+
+        if(myId == 2)
+        {
+            unicastEvent = new cMessage("time Event",SEND_UNICAST_EVENT);
+            unicastEvent->setSrcProcId(myId);
+            double offset2 = 0.20 + dblrand()*0.10;
+            scheduleAt(110.00 + offset2 + individualOffset,unicastEvent);
+         }
+
+
+        if(myId == 3)
+         {
+            unicastEvent = new cMessage("time Event",SEND_UNICAST_EVENT);
+            unicastEvent->setSrcProcId(myId);
+            double offset3 = 0.30 + dblrand()*0.10;
+            scheduleAt(100.00 + offset3 + individualOffset,unicastEvent);
+         }
+
+        if(myId == 4)
+
+        {
+            unicastEvent = new cMessage("time Event",SEND_UNICAST_EVENT);
+            unicastEvent->setSrcProcId(myId);
+            double offset4 = 0.40 + dblrand()*0.10;
+            scheduleAt(80.00 + offset4 + individualOffset,unicastEvent);
+        }
+
+
+        if(myId == 5)
+        {
+            unicastEvent = new cMessage("time Event",SEND_UNICAST_EVENT);
+            unicastEvent->setSrcProcId(myId);
+            double offset5 = 0.50 + dblrand()*0.10;
+            scheduleAt(70.00 + offset5 + individualOffset,unicastEvent);
+        }
+
+        if(myId == 6){
+            unicastEvent = new cMessage("time Event",SEND_UNICAST_EVENT);
+            unicastEvent->setSrcProcId(myId);
+            double offset6 = 0.60 + dblrand()*0.10;
+            scheduleAt(60.00 + offset6 + individualOffset,unicastEvent);
+        }
+        */
+
+        /*the carId 10 send the broadcast packets at the 120s*/
+        if(myId == 10){
+            broadcastEvent = new cMessage("broadcast Event",SEND_BROADCAST_EVENT);
+            broadcastEvent->setSrcProcId(myId);
+            scheduleAt(120.00+individualOffset,broadcastEvent);
+        }
 
         DBG<<"##WaveAppLayer: the offSet time is: "<< offSet << "and the individualOffset time is: "<< individualOffset << std::endl;
 
@@ -77,9 +154,9 @@ void AppTest1::initialize(int stage){
             providerServiceList.clear();
             int psid = intuniform(1,10);
             int priority = intuniform(1,6);
-            cService* service = new cService(psid,Channels::SCH1,priority,-1,0,2,myId,1);
+            cService* service = new cService(psid,Channels::SCH1,priority,-1,0,0,myId,1);
             service->setTimestamp(simTime());
-            //map<int,cService*> pService;
+            service->setPositions(curPosition);
             psidService pService;
             pService.insert(make_pair(psid,service));
             providerServiceList.insert(make_pair(Channels::SCH1,pService));
@@ -90,8 +167,9 @@ void AppTest1::initialize(int stage){
             providerServiceList.clear();
             int psid = intuniform(11,20);
             int priority = intuniform(1,6);
-            cService* service = new cService(psid,Channels::SCH2,priority,-1,1,3,myId,1);
+            cService* service = new cService(psid,Channels::SCH2,priority,-1,1,0,myId,1);
             service->setTimestamp(simTime());
+            service->setPositions(curPosition);
             psidService pService;
             pService.insert(make_pair(psid,service));
             providerServiceList.insert(make_pair(Channels::SCH2,pService));
@@ -103,8 +181,9 @@ void AppTest1::initialize(int stage){
             providerServiceList.clear();
             int psid = intuniform(21,30);
             int priority = intuniform(1,6);
-            cService* service = new cService(psid,Channels::SCH3,priority,-1,2,3,myId,1);
+            cService* service = new cService(psid,Channels::SCH3,priority,-1,2,0,myId,1);
             service->setTimestamp(simTime());
+            service->setPositions(curPosition);
             psidService pService;
             pService.insert(make_pair(psid,service));
             providerServiceList.insert(make_pair(Channels::SCH3,pService));
@@ -115,8 +194,9 @@ void AppTest1::initialize(int stage){
             providerServiceList.clear();
             int psid = intuniform(21,30);
             int priority = intuniform(1,6);
-            cService* service = new cService(psid,Channels::SCH4,priority,-1,1,4,myId,1);
+            cService* service = new cService(psid,Channels::SCH4,priority,-1,1,0,myId,1);
             service->setTimestamp(simTime());
+            service->setPositions(curPosition);
             psidService pService;
             pService.insert(make_pair(psid,service));
             providerServiceList.insert(make_pair(Channels::SCH4,pService));
@@ -151,6 +231,34 @@ void AppTest1::initialize(int stage){
         double randomOffset = dblrand()*0.01+ intuniform(0,9)*0.1;
         scheduleAt(simTime() + 5.0 + randomOffset,updatePOSEvent);
     }
+}
+
+void AppTest1::finish(){
+    if(nextWSAEvent->isScheduled()){
+        cancelAndDelete(nextWSAEvent);
+    }else
+    {
+        delete nextWSAEvent;
+    }
+
+    if(nextWSMEvent->isScheduled()){
+        cancelAndDelete(nextWSMEvent);
+    }else
+    {
+        delete nextWSMEvent;
+    }
+    if(updatePOSEvent->isScheduled()){
+        cancelAndDelete(updatePOSEvent);
+    }else
+    {
+        delete updatePOSEvent;
+    }
+
+    //stats
+    recordScalar("ReceivedUnicasts",statsReceivedUnicast);
+    recordScalar("ReceivedBroadcasts",statsReceivedBroadcasts);
+    recordScalar("SentUnicasts",statsSendUnicast);
+    recordScalar("SentBroadcasts",statsSendBroadcast);
 }
 
 void AppTest1::onWSA(WaveShortMessage* msg){
@@ -266,7 +374,24 @@ void AppTest1::onWSM(WaveShortMessage* msg){
     int dst = wsm->getRecipientAddress();// destination address
     if(dst == myId)
     {
+        /*received message to me then emit the signal to listener*/
+        hopCount = 9 - wsm->getHopLimit() + 1;
+        sender = wsm->getOriginalAddress();
+        double time = simTime().dbl() - wsm->getTimestamp().dbl();
+        double dist = distance(curPosition,wsm->getSenderPos());
+        statsReceivedUnicast++;
+        //send a signal
+        emit(hopLimitSignal,hopCount);
+        emit(delaySignal,time);
+        emit(distanceSignal,dist);
         DBG<< "#####AppTEST1::receive a packet to me from  the sender" << wsm->getOriginalAddress() << "at the time " << wsm->getTimestamp()<< std::endl;
+        if(ev.isGUI()){
+            //updateDisplay();
+            char msgname[40];
+            sprintf(msgname,"from %d to %d with %d hopLimit take %f s",wsm->getOriginalAddress(),wsm->getRecipientAddress(),hopCount,time);
+            findHost()->bubble(msgname);
+            findHost()->getDisplayString().setTagArg("t",0,msgname);
+        }
         delete wsm;
         return;
     }
@@ -274,63 +399,8 @@ void AppTest1::onWSM(WaveShortMessage* msg){
     /*3.judge the packet whether is a broadcast packet and if the hopLimit greater than 0 and is aready send or not*/
     if(dst == -1)
     {
+        /*broadcast forward*/
         broadcastForwardMessage(wsm);
-        /*
-        int hopLimit = wsm->getHopLimit();
-        if(hopLimit < 1)
-        {
-            DBG<<"##AppTEST1::The packet do not need forward again,receive the packet from the sender: " << wsm->getSenderAddress() << "at the time: "<< wsm->getArrivalTime() << std::endl;
-            delete wsm;
-            return;
-        }
-        */
-        /*XXX:to do*/
-        /*
-         * judge the packet whether has been forward yet
-         * */
-        /*
-         int carId = wsm->getOriginalAddress();
-        Coord curPos = wsm->getSenderPos();
-        simtime_t timeStamp = wsm->getTimestamp();
-        int serial = wsm->getSerial();
-        */
-        /*the packet has forword then dicard the packet */
-        /*
-        if(!updateCarList(carId,curPos,timeStamp,serial))
-        {
-            DBG<<"##AppTEST1::the packet has been forwarded then dicard the packet" << std::endl;
-            delete wsm;
-            return;
-        }
-        */
-
-        /*4.if the hopLimit greater than 1 and the packet has not been forward yet,then prepare to forward the packet
-         * a.first reduce the hoplimit by 1
-         * b.insert the service into the provider service list
-         * c.broadcast the wsa packet in the cch time slot and contain the service
-         * d.send wsm packet in the specified channel
-         * */
-
-        //hopLimit = hopLimit - 1;
-        /*choose the next service channel*/
-        /*
-        int sch = selectNextChannel();
-        cService *service = new cService(wsm->getPsid(),sch, wsm->getUserPriority(), wsm->getRecipientAddress(), wsm->getFlag(),hopLimit);
-        service->setTimestamp(wsm->getTimestamp());
-        insertService(&providerServiceList,service);
-        */
-        /*begin to broadcast the wsa packet*/
-        //channelNum = sch;
-        //sendWSAMessage(wsm->getWsmData());
-
-        /*after the 50ms then send the wsm message*/
-        /*
-        if(nextWSMEvent->isScheduled())
-        {
-            cancelEvent(nextWSMEvent);
-        }
-        scheduleAt(simTime()+ SWITCHING_INTERVAL_11P + individualOffset,nextWSMEvent);
-        */
     }else
     {
         /*the unicast forward */
@@ -374,6 +444,7 @@ void AppTest1::sendWSMMessage(std::string blockedRoadId){
         cService *service = broadcastServiceList.front();
         WaveShortMessage *wsm = prepareBaseMSG("wsm",dataLengthBits,dataPriority,service->getSch(),carMove.getSpeed(),carMove.getDirection(),service->getTimestamp());
         wsm = prepareWSM(wsm,service->getPsid(),service->getHopLimit(),service->getFlag(),service->getDst(),service->getOriginalSender());
+        wsm->setSenderPos(service->getPositions());
         wsm->setWsmData(blockedRoadId.c_str());
         if(wsm->getOriginalAddress() == myId)
         {
@@ -390,16 +461,20 @@ void AppTest1::sendWSMMessage(std::string blockedRoadId){
             /*broadcast the wsm message*/
             broadcastWSMMessage(wsm);
         }
-        /*delete the servie that have provided,update the providerserviceList */
-        broadcastServiceList.pop_front();
-        deleteServie(&providerServiceList,service->getSch(),service->getPsid());
-
-        /*send the next wsm message until the sch time is arrived or there is no service to provide*/
-        if(nextWSMEvent->isScheduled())
-        {
-            cancelEvent(nextWSMEvent);
+        /*delete the servie that have provided,update the providerserviceList for the unicast*/
+        if(wsm->getRecipientAddress() == -1 && wsm->getPsid() >50){
+            double offset = 0.0006;
+            scheduleAt(simTime()+offset,nextWSMEvent);
+            DBG<<"###Apptest1:The sendInterval is: " << sendInterval << std::endl;
+        }else{//repeat send broadcast packets
+            broadcastServiceList.pop_front();
+            deleteServie(&providerServiceList,service->getSch(),service->getPsid());
+            /*send the next wsm message until the sch time is arrived or there is no service to provide*/
+            if(nextWSMEvent->isScheduled()){
+                cancelEvent(nextWSMEvent);
+            }
+            scheduleAt(simTime()+ 0.010,nextWSMEvent);
         }
-        scheduleAt(simTime()+ 0.010,nextWSMEvent);
         return;
     }else{
         DBG<< "##AppTest1::there is no message to send !!!"<< std::endl;
@@ -471,6 +546,46 @@ void AppTest1::sendWSAMessage(std::string blockedRoadId)
                     }
 
                     /*send other nodes position information, no more than 10*/
+                    /*fix me: we should send the position information randomly*/
+                    if(!posFlag){//first 10 car position information
+                        map<int,CarMove*>::iterator iter2 = carMoveStatus.begin();
+                        for(int i = 0;(iter2 != carMoveStatus.end())&&(i<10);iter2++){
+                            CarMove *carmove = iter2->second;
+                            wsa->setCarlist(i,*carmove);
+                            i++;
+                        }
+                    }else{//last 10 car position information
+                        map<int,CarMove*>::reverse_iterator iter3 = carMoveStatus.rbegin();
+                        for(int i = 0;(iter3 != carMoveStatus.rend())&&(i<10);iter3++){
+                        CarMove *carmove = iter3->second;
+                        wsa->setCarlist(i,*carmove);
+                        i++;
+                        }
+                    }
+                    posFlag = (!posFlag);//turn around
+
+                    /*
+                    int num = intuniform(0,1);
+                    if(num == 0)
+                    {
+                        map<int,CarMove*>::iterator iter2 = carMoveStatus.begin();
+                        for(int i = 0;(iter2 != carMoveStatus.end())&&(i<10);iter2++){
+                            CarMove *carmove = iter2->second;
+                            wsa->setCarlist(i,*carmove);
+                            i++;
+                        }
+                    }else if(num == 1)
+                    {
+                        map<int,CarMove*>::reverse_iterator iter3 = carMoveStatus.rbegin();
+                        for(int i = 0;(iter3 != carMoveStatus.rend())&&(i<10);iter3++){
+                            CarMove *carmove = iter3->second;
+                            wsa->setCarlist(i,*carmove);
+                            i++;
+                        }
+                    }
+                    */
+
+                    /*
                     map<int,CarMove*>::iterator iter2 = carMoveStatus.begin();
                     for(int i = 0;(iter2 != carMoveStatus.end())&&(i<10);iter2++)
                     {
@@ -478,6 +593,7 @@ void AppTest1::sendWSAMessage(std::string blockedRoadId)
                         wsa->setCarlist(i,*carmove);
                         i++;
                     }
+                    */
 
                     /*set the service channel to provide service */
                     //myMac->changeServiceChannel(channelNum);
@@ -649,8 +765,7 @@ void AppTest1::handleSelfMsg(cMessage* msg)
     }else if(msg == nextWSMEvent)
     {
         sendWSMMessage(traci->getRoadId());
-    }else if(msg == updatePOSEvent)
-    {
+    }else if(msg == updatePOSEvent){
         scheduleAt(simTime() + 5.0,updatePOSEvent);
         updateCarStatusList();
         WaveShortMessage *wsa = prepareBaseMSG("wsa",dataLengthBits,dataPriority,178,carMove.getSpeed(),carMove.getDirection(),simTime());
@@ -658,13 +773,41 @@ void AppTest1::handleSelfMsg(cMessage* msg)
         wsa->setWsmData("update position information");
         wsa = prepareWSA2(wsa,0,0,0,0,178,-1,simTime());
         /*send other car position information*/
-        map<int,CarMove*>::iterator iter = carMoveStatus.begin();
-        for(int i = 0; iter != carMoveStatus.end()&& i < 10;iter++)
-        {
-            CarMove *carmove = iter->second;
+        if(!posFlag){//first 10 car position information
+            map<int,CarMove*>::iterator iter2 = carMoveStatus.begin();
+            for(int i = 0;(iter2 != carMoveStatus.end())&&(i<10);iter2++){
+            CarMove *carmove = iter2->second;
             wsa->setCarlist(i,*carmove);
             i++;
+            }
+        }else{//last 10 car position information
+            map<int,CarMove*>::reverse_iterator iter3 = carMoveStatus.rbegin();
+            for(int i = 0;(iter3 != carMoveStatus.rend())&&(i<10);iter3++){
+            CarMove *carmove = iter3->second;
+            wsa->setCarlist(i,*carmove);
+            i++;
+            }
         }
+        posFlag = (!posFlag);//turn around
+
+        /*
+        int num = intuniform(0,1);
+        if(num == 0){
+            map<int,CarMove*>::iterator iter2 = carMoveStatus.begin();
+            for(int i = 0;(iter2 != carMoveStatus.end())&&(i<10);iter2++){
+            CarMove *carmove = iter2->second;
+            wsa->setCarlist(i,*carmove);
+            i++;
+            }
+        }else if(num == 1){
+            map<int,CarMove*>::reverse_iterator iter3 = carMoveStatus.rbegin();
+            for(int i = 0;(iter3 != carMoveStatus.rend())&&(i<10);iter3++){
+                CarMove *carmove = iter3->second;
+                wsa->setCarlist(i,*carmove);
+                i++;
+            }
+        }
+        */
 
         t_channel state = getActiveChannel();
         double timeToNextChannel = timeToNextSwitch();
@@ -680,32 +823,41 @@ void AppTest1::handleSelfMsg(cMessage* msg)
                 sendWSA(wsa);
             }
         }
-    }else if(msg == timeEvent)
-    {
-        switch(msg->getKind()){
-             case SEND_UNICAST_EVENT:{
-                 if(cycleTime > 0){
-                     int psid = 99;
-                     int priority = 6;
-                     int receiveId = 7;
-                     int hopLimit = 5;
-                     int sch = selectNextChannel();
-                     cService *service = new cService(psid,sch,priority,receiveId,0,hopLimit,myId,1);
-                     service->setTimestamp(simTime());
-                     insertService(&providerServiceList,service);
-                     sendWSAMessage("hello world");
-                     cycleTime -= 0.025;
-                     break;
-                 }
-             }
-             default:{
-                 if(msg){
-                     DBG  << "##AppTEST1::App:Error:Got Self Message of unknow kind!Name:"<<msg->getName()<< std::endl;
-                 }
-                 break;
-             }
+    }else if(msg == unicastEvent){
+        int SrcProcId = unicastEvent->getSrcProcId();
+        if(SrcProcId == myId)
+        {
+            if(sendCount < 50){
+                int psid = 90+myId;
+                int receiveId = -1;
+                if(myId == 0){
+                receiveId = 20;
+                }else if(myId == 1){
+                receiveId = 19;
+                }else if(myId == 2){
+                receiveId = 17;
+                }else if(myId == 3){
+                receiveId = 15;
+                }else if(myId == 4){
+                receiveId = 13;
+                }else if(myId == 5){
+                receiveId = 11;
+                }else if(myId ==6){
+                receiveId = 9;
+                }
+                sendRepeatInfo(psid,receiveId);
+                sendCount++;
+                scheduleAt(simTime()+1.0,unicastEvent);
+            }
         }
-    }
+    }else if (msg == broadcastEvent){
+            int SrcProcId = broadcastEvent->getSrcProcId();
+            if (SrcProcId == myId){
+                int psid = 100;
+                int receiveId = -1;
+                sendRepeatInfo(psid,receiveId,0);
+            }
+        }
 }
 
 void AppTest1::insertService(ServiceListType *list,cService *service)
@@ -805,7 +957,7 @@ void AppTest1::updateCarStatusList()
         {
             simtime_t startTime = iter->second->getStartTime();
             simtime_t currentTime = simTime();
-            if(currentTime - startTime >= 30.0)
+            if(currentTime - startTime >= 60.0)
             {
                 delete (iter->second);//callback the memory
                 carMoveStatus.erase(iter);
@@ -908,6 +1060,7 @@ void AppTest1::unicastForwardMessage(WaveShortMessage* msg){
         int sch = selectNextChannel();
         cService *service = new cService(wsm->getPsid(),sch,wsm->getUserPriority(),wsm->getRecipientAddress(),wsm->getFlag(),hopLimit,wsm->getOriginalAddress(),wsm->getSerial());
         service->setTimestamp(wsm->getTimestamp());
+        service->setPositions(wsm->getSenderPos());
         insertService(&providerServiceList,service);
         //channelNum = sch;
         double timeToNextChannel = timeToNextSwitch();
@@ -930,6 +1083,20 @@ void AppTest1::broadcastForwardMessage(WaveShortMessage* msg){
     ASSERT(wsm);
     int hopLimit = wsm->getHopLimit();
     if(hopLimit < 1){
+        if(wsm->getPsid() > 50){
+            statsReceivedBroadcasts++;
+            int hop = wsm->getHopLimit() + 1;
+            double time = simTime().dbl() - wsm->getTimestamp().dbl();
+            double dist = distance(curPosition,wsm->getSenderPos());
+            emit(delaySignal,time);
+            emit(distanceSignal,dist);
+            DBG<<"######AppTest1::received a broadcast packet from the sender: "<< wsm->getOriginalAddress() << "at the time " << wsm->getTimestamp() << std::endl;
+            if(ev.isGUI()){
+                char msgname[40];
+                sprintf(msgname,"from %d with %d hopLimit take %f s",wsm->getOriginalAddress(),hop,time);
+                findHost()->bubble(msgname);
+            }
+        }
         DBG<< "##AppTest1:: The broadcast packet do not need forward again,receive the packet from the sender: " << wsm->getSenderAddress() << "at the time: "<< wsm->getArrivalTime() << std::endl;
         delete wsm;
         return;
@@ -953,13 +1120,13 @@ void AppTest1::broadcastForwardMessage(WaveShortMessage* msg){
      * * c.broadcast the wsa packet in the cch time slot and contain the service
      * * d.send wsm packet in the specified channel
      */
-
     hopLimit = hopLimit - 1;
 
     /*choose the next service channel*/
     int sch = selectNextChannel();
     cService *service = new cService(wsm->getPsid(),sch, wsm->getUserPriority(), wsm->getRecipientAddress(), wsm->getFlag(),hopLimit,wsm->getOriginalAddress(),wsm->getSerial());
     service->setTimestamp(wsm->getTimestamp());
+    service->setPositions(wsm->getSenderPos());
     insertService(&providerServiceList,service);
 
     /*begin to broadcast the wsa packet*/
@@ -977,6 +1144,10 @@ void AppTest1::unicastWSMMessage(WaveShortMessage* msg){
     if(forwardId != -1)
     {
         /*update the next forward address*/
+        int psid = 90 + myId;
+        if((wsm->getPsid() == psid) && (wsm->getOriginalAddress() == myId)){
+            statsSendUnicast++;
+        }
         wsm->setNextForwardAddress(forwardId);
         wsm->setSerial(0);
         DBG<<"###unicast the packet with hoplimit:"<< wsm->getHopLimit() << "to the destination: " << wsm->getRecipientAddress() << "the forward node is:" << wsm->getNextForwardAddress() << std::endl;
@@ -994,6 +1165,11 @@ void AppTest1::broadcastWSMMessage(WaveShortMessage* msg){
     if(wsm->getOriginalAddress() == myId)
     {
         serial++;
+    }
+
+    if(wsm->getPsid() > 50){
+        wsm->setTimestamp(simTime());
+        statsSendBroadcast++;
     }
     DBG<<"###broadcast packet with hoplimit: "<< wsm->getHopLimit() << std::endl;
     sendWSM(wsm);
@@ -1042,6 +1218,21 @@ double AppTest1::timeToNextSwitch(){
     return timetoNextSwitch;
 }
 
+void AppTest1::updateDisplay(){
+    char buf[40];
+    sprintf(buf, "from %d to %d with %d hopLimit",sender,myId,hopCount);
+    findHost()->getDisplayString().setTagArg("t",0,buf);
+}
+
+void AppTest1::sendRepeatInfo(int psid,int receiveId,int hopLimit){
+    int priority = 6;
+    int sch = selectNextChannel();
+    cService *service = new cService(psid,sch,priority,receiveId,0,hopLimit,myId,1);
+    service->setTimestamp(simTime());
+    service->setPositions(curPosition);
+    insertService(&providerServiceList,service);
+    sendWSAMessage("hello world");
+}
 AppTest1::AppTest1() {
     // TODO Auto-generated constructor stub
 

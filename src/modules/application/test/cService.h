@@ -18,6 +18,7 @@
 #include "simtime_t.h"
 #include <omnetpp.h>
 #include "bitset"
+#include "Coord.h"
 using namespace std;
 
 class cService {
@@ -41,6 +42,9 @@ private:
 
     //the packet sequence,which to Distinguish the repeat packet
     int serial;
+
+    //the sender position to calculate the distance
+    Coord positions;
 
     //timestamp use for update the service list
     simtime_t timestamp;
@@ -123,6 +127,14 @@ public:
 
     void setSerial(int serial = 0) {
         this->serial = serial;
+    }
+
+    const Coord& getPositions() const {
+        return positions;
+    }
+
+    void setPositions(const Coord& positions) {
+        this->positions = positions;
     }
 };
 

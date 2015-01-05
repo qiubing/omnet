@@ -48,11 +48,17 @@ typedef map<int,float> ChannelWeightType;
  * */
 
 class AppTest1: public WaveAppLayer {
+private:
+    simsignal_t hopLimitSignal;
+    simsignal_t delaySignal;
+    simsignal_t distanceSignal;
 public:
     AppTest1();
     virtual ~AppTest1();
     virtual void initialize(int stage);
     virtual void receiveSignal(cComponent* source, simsignal_t signalID, cObject* obj);
+    /** @brief Delete all dynamically allocated objects of the module.*/
+    virtual void finish();
 
 
     /*allocate the channel by the serviceList provided,return -1 represent not find the appropriate channel */
@@ -100,6 +106,12 @@ public:
     /*return the next time to switch channel,that is there are how much time left in the current slot*/
     double timeToNextSwitch();
 
+    /*display the message*/
+    virtual void updateDisplay();
+
+    /*prepare repeat information to send*/
+    virtual void sendRepeatInfo(int psid, int receivedId,int hopLimit=9);
+
 protected:
     TraCIMobility* traci;
     AnnotationManager* annotations;
@@ -116,11 +128,10 @@ protected:
     cMessage* updatePOSEvent;
 
     /*Self Message to timing send message*/
-    cMessage *timeEvent;
+    cMessage *unicastEvent;
 
-    /*time to timing*/
-    simtime_t cycleTime;
-
+    /*broadcast message event*/
+    cMessage *broadcastEvent;
 
     bool sentWSM;
     bool sentWSA;
@@ -132,6 +143,10 @@ protected:
     int channelNum;
     /*the packet serial*/
     int serial;
+    bool positionRoute;//route flag,if it is true,then use car position route,otherwise route with no car position
+
+    int sender;
+    int hopCount;
 
     /*car move status*/
     CarMove carMove;
@@ -152,6 +167,21 @@ protected:
 
     //every node maintain a table about others moving status
     map<int,CarMove*> carMoveStatus;
+
+    /*statics send count*/
+    int sendCount;
+
+    /*send position flag,flag 0 represent send first 10 car position information and flag 1 represent send last 10 car position information*/
+    bool posFlag;
+
+    /*repeat send packets time interval*/
+    double sendInterval;
+
+    //stats
+    long statsReceivedUnicast;//received unicast packets
+    long statsReceivedBroadcasts;//received broadcast packets
+    long statsSendUnicast;//send unicast packets
+    long statsSendBroadcast;//send broadcast packets
 
 protected:
     virtual void onWSA(WaveShortMessage* wsm);

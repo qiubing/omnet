@@ -1,0 +1,1442 @@
+version 2
+run General-0-20141230-22:49:37-28869
+attr configname General
+attr datetime 20141230-22:49:37
+attr experiment General
+attr inifile omnetpp.ini
+attr iterationvars ""
+attr iterationvars2 $repetition=0
+attr measurement ""
+attr network WAVETest
+attr processid 28869
+attr repetition 0
+attr replication #0
+attr resultdir results
+attr runnumber 0
+attr seedset 0
+
+scalar WAVETest.node[0].appl 	ReceivedUnicasts 	0
+scalar WAVETest.node[0].appl 	ReceivedBroadcasts 	0
+scalar WAVETest.node[0].appl 	SentUnicasts 	0
+scalar WAVETest.node[0].appl 	SentBroadcasts 	0
+statistic WAVETest.node[0].appl 	distance:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  distance
+attr title  "distance, stats"
+statistic WAVETest.node[0].appl 	delay:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  delay
+attr title  "delay time, stats"
+statistic WAVETest.node[0].appl 	hopLimit:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  hopLimit
+attr title  "hop limit, stats"
+scalar WAVETest.node[0].nic.phy80211p 	busyTime 	6.977746628561e-05
+scalar WAVETest.node[0].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar WAVETest.node[0].nic.mac1609_4 	ReceivedBroadcasts 	70
+scalar WAVETest.node[0].nic.mac1609_4 	SentPackets 	25
+scalar WAVETest.node[0].nic.mac1609_4 	SNIRLostPackets 	0
+scalar WAVETest.node[0].nic.mac1609_4 	RXTXLostPackets 	0
+scalar WAVETest.node[0].nic.mac1609_4 	TotalLostPackets 	0
+scalar WAVETest.node[0].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar WAVETest.node[0].nic.mac1609_4 	TooLittleTime 	0
+scalar WAVETest.node[0].nic.mac1609_4 	TimesIntoBackoff 	25
+scalar WAVETest.node[0].nic.mac1609_4 	SlotsBackoff 	100
+scalar WAVETest.node[0].nic.mac1609_4 	NumInternalContention 	0
+scalar WAVETest.node[0].nic.mac1609_4 	totalBusyTime 	0.011424999905
+scalar WAVETest.node[0].veinsmobility 	startTime 	0.1
+scalar WAVETest.node[0].veinsmobility 	totalTime 	120.3
+scalar WAVETest.node[0].veinsmobility 	stopTime 	120.48270199748
+scalar WAVETest.node[0].veinsmobility 	minSpeed 	0.48627966244239
+scalar WAVETest.node[0].veinsmobility 	maxSpeed 	29.99995332153
+scalar WAVETest.node[0].veinsmobility 	totalDistance 	3477.28276802
+scalar WAVETest.node[0].veinsmobility 	totalCO2Emission 	845.09680065106
+scalar WAVETest.node[1].appl 	ReceivedUnicasts 	0
+scalar WAVETest.node[1].appl 	ReceivedBroadcasts 	0
+scalar WAVETest.node[1].appl 	SentUnicasts 	0
+scalar WAVETest.node[1].appl 	SentBroadcasts 	0
+statistic WAVETest.node[1].appl 	distance:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  distance
+attr title  "distance, stats"
+statistic WAVETest.node[1].appl 	delay:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  delay
+attr title  "delay time, stats"
+statistic WAVETest.node[1].appl 	hopLimit:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  hopLimit
+attr title  "hop limit, stats"
+scalar WAVETest.node[1].nic.phy80211p 	busyTime 	9.4641568622985e-05
+scalar WAVETest.node[1].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar WAVETest.node[1].nic.mac1609_4 	ReceivedBroadcasts 	91
+scalar WAVETest.node[1].nic.mac1609_4 	SentPackets 	24
+scalar WAVETest.node[1].nic.mac1609_4 	SNIRLostPackets 	0
+scalar WAVETest.node[1].nic.mac1609_4 	RXTXLostPackets 	0
+scalar WAVETest.node[1].nic.mac1609_4 	TotalLostPackets 	0
+scalar WAVETest.node[1].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar WAVETest.node[1].nic.mac1609_4 	TooLittleTime 	0
+scalar WAVETest.node[1].nic.mac1609_4 	TimesIntoBackoff 	24
+scalar WAVETest.node[1].nic.mac1609_4 	SlotsBackoff 	96
+scalar WAVETest.node[1].nic.mac1609_4 	NumInternalContention 	0
+scalar WAVETest.node[1].nic.mac1609_4 	totalBusyTime 	0.013823999885
+scalar WAVETest.node[1].veinsmobility 	startTime 	5.1
+scalar WAVETest.node[1].veinsmobility 	totalTime 	115.3
+scalar WAVETest.node[1].veinsmobility 	stopTime 	120.48270199748
+scalar WAVETest.node[1].veinsmobility 	minSpeed 	0.485449505219
+scalar WAVETest.node[1].veinsmobility 	maxSpeed 	29.999986162409
+scalar WAVETest.node[1].veinsmobility 	totalDistance 	3331.2208308426
+scalar WAVETest.node[1].veinsmobility 	totalCO2Emission 	813.604679545
+scalar WAVETest.node[10].appl 	ReceivedUnicasts 	0
+scalar WAVETest.node[10].appl 	ReceivedBroadcasts 	0
+scalar WAVETest.node[10].appl 	SentUnicasts 	0
+scalar WAVETest.node[10].appl 	SentBroadcasts 	334
+statistic WAVETest.node[10].appl 	distance:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  distance
+attr title  "distance, stats"
+statistic WAVETest.node[10].appl 	delay:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  delay
+attr title  "delay time, stats"
+statistic WAVETest.node[10].appl 	hopLimit:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  hopLimit
+attr title  "hop limit, stats"
+scalar WAVETest.node[10].nic.phy80211p 	busyTime 	0.00014662693561224
+scalar WAVETest.node[10].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar WAVETest.node[10].nic.mac1609_4 	ReceivedBroadcasts 	86
+scalar WAVETest.node[10].nic.mac1609_4 	SentPackets 	355
+scalar WAVETest.node[10].nic.mac1609_4 	SNIRLostPackets 	0
+scalar WAVETest.node[10].nic.mac1609_4 	RXTXLostPackets 	0
+scalar WAVETest.node[10].nic.mac1609_4 	TotalLostPackets 	0
+scalar WAVETest.node[10].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar WAVETest.node[10].nic.mac1609_4 	TooLittleTime 	0
+scalar WAVETest.node[10].nic.mac1609_4 	TimesIntoBackoff 	367
+scalar WAVETest.node[10].nic.mac1609_4 	SlotsBackoff 	1279
+scalar WAVETest.node[10].nic.mac1609_4 	NumInternalContention 	0
+scalar WAVETest.node[10].nic.mac1609_4 	totalBusyTime 	0.053274999559
+scalar WAVETest.node[10].veinsmobility 	startTime 	50.1
+scalar WAVETest.node[10].veinsmobility 	totalTime 	70.3
+scalar WAVETest.node[10].veinsmobility 	stopTime 	120.48270199748
+scalar WAVETest.node[10].veinsmobility 	minSpeed 	0.48245398792205
+scalar WAVETest.node[10].veinsmobility 	maxSpeed 	29.999318318209
+scalar WAVETest.node[10].veinsmobility 	totalDistance 	1989.0303532674
+scalar WAVETest.node[10].veinsmobility 	totalCO2Emission 	518.95243592075
+scalar WAVETest.node[11].appl 	ReceivedUnicasts 	0
+scalar WAVETest.node[11].appl 	ReceivedBroadcasts 	334
+scalar WAVETest.node[11].appl 	SentUnicasts 	0
+scalar WAVETest.node[11].appl 	SentBroadcasts 	0
+statistic WAVETest.node[11].appl 	distance:stats
+field count 334
+field mean 146.12512242057
+field stddev 4.079860702848
+field sum 48805.79088847
+field sqrsum 7137295.0411075
+field min 139.84404430537
+field max 151.79676347949
+attr interpolationmode  none
+attr source  distance
+attr title  "distance, stats"
+statistic WAVETest.node[11].appl 	delay:stats
+field count 334
+field mean 0.00049342738910197
+field stddev 0.00027384082888096
+field sum 0.16480474796006
+field sqrsum 0.00010629044675176
+field min 0.00043537194700302
+field max 0.0026496516510044
+attr interpolationmode  none
+attr source  delay
+attr title  "delay time, stats"
+statistic WAVETest.node[11].appl 	hopLimit:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  hopLimit
+attr title  "hop limit, stats"
+scalar WAVETest.node[11].nic.phy80211p 	busyTime 	0.00076901073288372
+scalar WAVETest.node[11].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar WAVETest.node[11].nic.mac1609_4 	ReceivedBroadcasts 	419
+scalar WAVETest.node[11].nic.mac1609_4 	SentPackets 	15
+scalar WAVETest.node[11].nic.mac1609_4 	SNIRLostPackets 	0
+scalar WAVETest.node[11].nic.mac1609_4 	RXTXLostPackets 	0
+scalar WAVETest.node[11].nic.mac1609_4 	TotalLostPackets 	0
+scalar WAVETest.node[11].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar WAVETest.node[11].nic.mac1609_4 	TooLittleTime 	0
+scalar WAVETest.node[11].nic.mac1609_4 	TimesIntoBackoff 	15
+scalar WAVETest.node[11].nic.mac1609_4 	SlotsBackoff 	51
+scalar WAVETest.node[11].nic.mac1609_4 	NumInternalContention 	0
+scalar WAVETest.node[11].nic.mac1609_4 	totalBusyTime 	0.052094999566
+scalar WAVETest.node[11].veinsmobility 	startTime 	55.1
+scalar WAVETest.node[11].veinsmobility 	totalTime 	65.3
+scalar WAVETest.node[11].veinsmobility 	stopTime 	120.48270199748
+scalar WAVETest.node[11].veinsmobility 	minSpeed 	0.47637025090517
+scalar WAVETest.node[11].veinsmobility 	maxSpeed 	29.999554495444
+scalar WAVETest.node[11].veinsmobility 	totalDistance 	1837.235263506
+scalar WAVETest.node[11].veinsmobility 	totalCO2Emission 	488.74679680826
+scalar WAVETest.node[12].appl 	ReceivedUnicasts 	0
+scalar WAVETest.node[12].appl 	ReceivedBroadcasts 	333
+scalar WAVETest.node[12].appl 	SentUnicasts 	0
+scalar WAVETest.node[12].appl 	SentBroadcasts 	0
+statistic WAVETest.node[12].appl 	distance:stats
+field count 333
+field mean 295.9814878489
+field stddev 4.0751061776033
+field sum 98561.835453683
+field sqrsum 29177992.057498
+field min 289.68407734308
+field max 301.64558172684
+attr interpolationmode  none
+attr source  distance
+attr title  "distance, stats"
+statistic WAVETest.node[12].appl 	delay:stats
+field count 333
+field mean 0.00049406522984431
+field stddev 0.0002742412925022
+field sum 0.16452372153816
+field sqrsum 0.000106254601419
+field min 0.00043587178900548
+field max 0.0026501514560018
+attr interpolationmode  none
+attr source  delay
+attr title  "delay time, stats"
+statistic WAVETest.node[12].appl 	hopLimit:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  hopLimit
+attr title  "hop limit, stats"
+scalar WAVETest.node[12].nic.phy80211p 	busyTime 	0.00082275217806704
+scalar WAVETest.node[12].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar WAVETest.node[12].nic.mac1609_4 	ReceivedBroadcasts 	414
+scalar WAVETest.node[12].nic.mac1609_4 	SentPackets 	13
+scalar WAVETest.node[12].nic.mac1609_4 	SNIRLostPackets 	0
+scalar WAVETest.node[12].nic.mac1609_4 	RXTXLostPackets 	0
+scalar WAVETest.node[12].nic.mac1609_4 	TotalLostPackets 	0
+scalar WAVETest.node[12].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar WAVETest.node[12].nic.mac1609_4 	TooLittleTime 	0
+scalar WAVETest.node[12].nic.mac1609_4 	TimesIntoBackoff 	24
+scalar WAVETest.node[12].nic.mac1609_4 	SlotsBackoff 	44
+scalar WAVETest.node[12].nic.mac1609_4 	NumInternalContention 	0
+scalar WAVETest.node[12].nic.mac1609_4 	totalBusyTime 	0.051252999573
+scalar WAVETest.node[12].veinsmobility 	startTime 	60.1
+scalar WAVETest.node[12].veinsmobility 	totalTime 	60.3
+scalar WAVETest.node[12].veinsmobility 	stopTime 	120.48270199748
+scalar WAVETest.node[12].veinsmobility 	minSpeed 	0.48098018418532
+scalar WAVETest.node[12].veinsmobility 	maxSpeed 	29.999632747902
+scalar WAVETest.node[12].veinsmobility 	totalDistance 	1687.3952304683
+scalar WAVETest.node[12].veinsmobility 	totalCO2Emission 	455.07148883806
+scalar WAVETest.node[13].appl 	ReceivedUnicasts 	0
+scalar WAVETest.node[13].appl 	ReceivedBroadcasts 	333
+scalar WAVETest.node[13].appl 	SentUnicasts 	0
+scalar WAVETest.node[13].appl 	SentBroadcasts 	0
+statistic WAVETest.node[13].appl 	distance:stats
+field count 333
+field mean 445.0076198077
+field stddev 4.0740774589355
+field sum 148187.53739597
+field sqrsum 65950093.873314
+field min 438.70270762618
+field max 450.6639087729
+attr interpolationmode  none
+attr source  distance
+attr title  "distance, stats"
+statistic WAVETest.node[13].appl 	delay:stats
+field count 333
+field mean 0.00049456232742065
+field stddev 0.00027424129230358
+field sum 0.16468925503107
+field sqrsum 0.00010641825235558
+field min 0.00043636886000495
+field max 0.0026506485730018
+attr interpolationmode  none
+attr source  delay
+attr title  "delay time, stats"
+statistic WAVETest.node[13].appl 	hopLimit:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  hopLimit
+attr title  "hop limit, stats"
+scalar WAVETest.node[13].nic.phy80211p 	busyTime 	0.00088403053347282
+scalar WAVETest.node[13].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar WAVETest.node[13].nic.mac1609_4 	ReceivedBroadcasts 	407
+scalar WAVETest.node[13].nic.mac1609_4 	SentPackets 	12
+scalar WAVETest.node[13].nic.mac1609_4 	SNIRLostPackets 	0
+scalar WAVETest.node[13].nic.mac1609_4 	RXTXLostPackets 	0
+scalar WAVETest.node[13].nic.mac1609_4 	TotalLostPackets 	0
+scalar WAVETest.node[13].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar WAVETest.node[13].nic.mac1609_4 	TooLittleTime 	0
+scalar WAVETest.node[13].nic.mac1609_4 	TimesIntoBackoff 	24
+scalar WAVETest.node[13].nic.mac1609_4 	SlotsBackoff 	49
+scalar WAVETest.node[13].nic.mac1609_4 	NumInternalContention 	0
+scalar WAVETest.node[13].nic.mac1609_4 	totalBusyTime 	0.050291999581
+scalar WAVETest.node[13].veinsmobility 	startTime 	65.1
+scalar WAVETest.node[13].veinsmobility 	totalTime 	55.3
+scalar WAVETest.node[13].veinsmobility 	stopTime 	120.48270199748
+scalar WAVETest.node[13].veinsmobility 	minSpeed 	0.49195865406655
+scalar WAVETest.node[13].veinsmobility 	maxSpeed 	29.999844280712
+scalar WAVETest.node[13].veinsmobility 	totalDistance 	1538.3766001852
+scalar WAVETest.node[13].veinsmobility 	totalCO2Emission 	425.35121703571
+scalar WAVETest.node[14].appl 	ReceivedUnicasts 	0
+scalar WAVETest.node[14].appl 	ReceivedBroadcasts 	0
+scalar WAVETest.node[14].appl 	SentUnicasts 	0
+scalar WAVETest.node[14].appl 	SentBroadcasts 	0
+statistic WAVETest.node[14].appl 	distance:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  distance
+attr title  "distance, stats"
+statistic WAVETest.node[14].appl 	delay:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  delay
+attr title  "delay time, stats"
+statistic WAVETest.node[14].appl 	hopLimit:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  hopLimit
+attr title  "hop limit, stats"
+scalar WAVETest.node[14].nic.phy80211p 	busyTime 	0.00014528795893809
+scalar WAVETest.node[14].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar WAVETest.node[14].nic.mac1609_4 	ReceivedBroadcasts 	61
+scalar WAVETest.node[14].nic.mac1609_4 	SentPackets 	12
+scalar WAVETest.node[14].nic.mac1609_4 	SNIRLostPackets 	0
+scalar WAVETest.node[14].nic.mac1609_4 	RXTXLostPackets 	0
+scalar WAVETest.node[14].nic.mac1609_4 	TotalLostPackets 	0
+scalar WAVETest.node[14].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar WAVETest.node[14].nic.mac1609_4 	TooLittleTime 	0
+scalar WAVETest.node[14].nic.mac1609_4 	TimesIntoBackoff 	13
+scalar WAVETest.node[14].nic.mac1609_4 	SlotsBackoff 	40
+scalar WAVETest.node[14].nic.mac1609_4 	NumInternalContention 	0
+scalar WAVETest.node[14].nic.mac1609_4 	totalBusyTime 	0.008771999927
+scalar WAVETest.node[14].veinsmobility 	startTime 	70.1
+scalar WAVETest.node[14].veinsmobility 	totalTime 	50.3
+scalar WAVETest.node[14].veinsmobility 	stopTime 	120.48270199748
+scalar WAVETest.node[14].veinsmobility 	minSpeed 	0.48062990354374
+scalar WAVETest.node[14].veinsmobility 	maxSpeed 	29.99965764751
+scalar WAVETest.node[14].veinsmobility 	totalDistance 	1390.1156351785
+scalar WAVETest.node[14].veinsmobility 	totalCO2Emission 	392.77981330153
+scalar WAVETest.node[15].appl 	ReceivedUnicasts 	0
+scalar WAVETest.node[15].appl 	ReceivedBroadcasts 	0
+scalar WAVETest.node[15].appl 	SentUnicasts 	0
+scalar WAVETest.node[15].appl 	SentBroadcasts 	0
+statistic WAVETest.node[15].appl 	distance:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  distance
+attr title  "distance, stats"
+statistic WAVETest.node[15].appl 	delay:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  delay
+attr title  "delay time, stats"
+statistic WAVETest.node[15].appl 	hopLimit:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  hopLimit
+attr title  "hop limit, stats"
+scalar WAVETest.node[15].nic.phy80211p 	busyTime 	0.00014542985883402
+scalar WAVETest.node[15].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar WAVETest.node[15].nic.mac1609_4 	ReceivedBroadcasts 	55
+scalar WAVETest.node[15].nic.mac1609_4 	SentPackets 	11
+scalar WAVETest.node[15].nic.mac1609_4 	SNIRLostPackets 	0
+scalar WAVETest.node[15].nic.mac1609_4 	RXTXLostPackets 	0
+scalar WAVETest.node[15].nic.mac1609_4 	TotalLostPackets 	0
+scalar WAVETest.node[15].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar WAVETest.node[15].nic.mac1609_4 	TooLittleTime 	0
+scalar WAVETest.node[15].nic.mac1609_4 	TimesIntoBackoff 	12
+scalar WAVETest.node[15].nic.mac1609_4 	SlotsBackoff 	44
+scalar WAVETest.node[15].nic.mac1609_4 	NumInternalContention 	0
+scalar WAVETest.node[15].nic.mac1609_4 	totalBusyTime 	0.007930999934
+scalar WAVETest.node[15].veinsmobility 	startTime 	75.1
+scalar WAVETest.node[15].veinsmobility 	totalTime 	45.3
+scalar WAVETest.node[15].veinsmobility 	stopTime 	120.48270199748
+scalar WAVETest.node[15].veinsmobility 	minSpeed 	0.49804604699602
+scalar WAVETest.node[15].veinsmobility 	maxSpeed 	29.999641960952
+scalar WAVETest.node[15].veinsmobility 	totalDistance 	1238.8499893062
+scalar WAVETest.node[15].veinsmobility 	totalCO2Emission 	358.19192911041
+scalar WAVETest.node[16].appl 	ReceivedUnicasts 	0
+scalar WAVETest.node[16].appl 	ReceivedBroadcasts 	0
+scalar WAVETest.node[16].appl 	SentUnicasts 	0
+scalar WAVETest.node[16].appl 	SentBroadcasts 	0
+statistic WAVETest.node[16].appl 	distance:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  distance
+attr title  "distance, stats"
+statistic WAVETest.node[16].appl 	delay:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  delay
+attr title  "delay time, stats"
+statistic WAVETest.node[16].appl 	hopLimit:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  hopLimit
+attr title  "hop limit, stats"
+scalar WAVETest.node[16].nic.phy80211p 	busyTime 	0.00014560689751188
+scalar WAVETest.node[16].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar WAVETest.node[16].nic.mac1609_4 	ReceivedBroadcasts 	49
+scalar WAVETest.node[16].nic.mac1609_4 	SentPackets 	10
+scalar WAVETest.node[16].nic.mac1609_4 	SNIRLostPackets 	0
+scalar WAVETest.node[16].nic.mac1609_4 	RXTXLostPackets 	0
+scalar WAVETest.node[16].nic.mac1609_4 	TotalLostPackets 	0
+scalar WAVETest.node[16].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar WAVETest.node[16].nic.mac1609_4 	TooLittleTime 	0
+scalar WAVETest.node[16].nic.mac1609_4 	TimesIntoBackoff 	10
+scalar WAVETest.node[16].nic.mac1609_4 	SlotsBackoff 	44
+scalar WAVETest.node[16].nic.mac1609_4 	NumInternalContention 	0
+scalar WAVETest.node[16].nic.mac1609_4 	totalBusyTime 	0.007089999941
+scalar WAVETest.node[16].veinsmobility 	startTime 	80.1
+scalar WAVETest.node[16].veinsmobility 	totalTime 	40.3
+scalar WAVETest.node[16].veinsmobility 	stopTime 	120.48270199748
+scalar WAVETest.node[16].veinsmobility 	minSpeed 	0.49948783503496
+scalar WAVETest.node[16].veinsmobility 	maxSpeed 	29.999877258437
+scalar WAVETest.node[16].veinsmobility 	totalDistance 	1091.6202594795
+scalar WAVETest.node[16].veinsmobility 	totalCO2Emission 	333.94750057178
+scalar WAVETest.node[17].appl 	ReceivedUnicasts 	0
+scalar WAVETest.node[17].appl 	ReceivedBroadcasts 	0
+scalar WAVETest.node[17].appl 	SentUnicasts 	0
+scalar WAVETest.node[17].appl 	SentBroadcasts 	0
+statistic WAVETest.node[17].appl 	distance:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  distance
+attr title  "distance, stats"
+statistic WAVETest.node[17].appl 	delay:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  delay
+attr title  "delay time, stats"
+statistic WAVETest.node[17].appl 	hopLimit:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  hopLimit
+attr title  "hop limit, stats"
+scalar WAVETest.node[17].nic.phy80211p 	busyTime 	0.000149225459276
+scalar WAVETest.node[17].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar WAVETest.node[17].nic.mac1609_4 	ReceivedBroadcasts 	44
+scalar WAVETest.node[17].nic.mac1609_4 	SentPackets 	8
+scalar WAVETest.node[17].nic.mac1609_4 	SNIRLostPackets 	0
+scalar WAVETest.node[17].nic.mac1609_4 	RXTXLostPackets 	0
+scalar WAVETest.node[17].nic.mac1609_4 	TotalLostPackets 	0
+scalar WAVETest.node[17].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar WAVETest.node[17].nic.mac1609_4 	TooLittleTime 	0
+scalar WAVETest.node[17].nic.mac1609_4 	TimesIntoBackoff 	8
+scalar WAVETest.node[17].nic.mac1609_4 	SlotsBackoff 	29
+scalar WAVETest.node[17].nic.mac1609_4 	NumInternalContention 	0
+scalar WAVETest.node[17].nic.mac1609_4 	totalBusyTime 	0.006247999948
+scalar WAVETest.node[17].veinsmobility 	startTime 	85.1
+scalar WAVETest.node[17].veinsmobility 	totalTime 	35.3
+scalar WAVETest.node[17].veinsmobility 	stopTime 	120.48270199748
+scalar WAVETest.node[17].veinsmobility 	minSpeed 	0.47968434647191
+scalar WAVETest.node[17].veinsmobility 	maxSpeed 	29.999787339591
+scalar WAVETest.node[17].veinsmobility 	totalDistance 	939.8035952748
+scalar WAVETest.node[17].veinsmobility 	totalCO2Emission 	306.26041944857
+scalar WAVETest.node[18].appl 	ReceivedUnicasts 	0
+scalar WAVETest.node[18].appl 	ReceivedBroadcasts 	0
+scalar WAVETest.node[18].appl 	SentUnicasts 	0
+scalar WAVETest.node[18].appl 	SentBroadcasts 	0
+statistic WAVETest.node[18].appl 	distance:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  distance
+attr title  "distance, stats"
+statistic WAVETest.node[18].appl 	delay:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  delay
+attr title  "delay time, stats"
+statistic WAVETest.node[18].appl 	hopLimit:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  hopLimit
+attr title  "hop limit, stats"
+scalar WAVETest.node[18].nic.phy80211p 	busyTime 	0.00014613578355763
+scalar WAVETest.node[18].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar WAVETest.node[18].nic.mac1609_4 	ReceivedBroadcasts 	37
+scalar WAVETest.node[18].nic.mac1609_4 	SentPackets 	8
+scalar WAVETest.node[18].nic.mac1609_4 	SNIRLostPackets 	0
+scalar WAVETest.node[18].nic.mac1609_4 	RXTXLostPackets 	0
+scalar WAVETest.node[18].nic.mac1609_4 	TotalLostPackets 	0
+scalar WAVETest.node[18].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar WAVETest.node[18].nic.mac1609_4 	TooLittleTime 	0
+scalar WAVETest.node[18].nic.mac1609_4 	TimesIntoBackoff 	8
+scalar WAVETest.node[18].nic.mac1609_4 	SlotsBackoff 	27
+scalar WAVETest.node[18].nic.mac1609_4 	NumInternalContention 	0
+scalar WAVETest.node[18].nic.mac1609_4 	totalBusyTime 	0.005407999955
+scalar WAVETest.node[18].veinsmobility 	startTime 	90.1
+scalar WAVETest.node[18].veinsmobility 	totalTime 	30.3
+scalar WAVETest.node[18].veinsmobility 	stopTime 	120.48270199748
+scalar WAVETest.node[18].veinsmobility 	minSpeed 	0.49639379185392
+scalar WAVETest.node[18].veinsmobility 	maxSpeed 	29.999343785574
+scalar WAVETest.node[18].veinsmobility 	totalDistance 	793.32701839965
+scalar WAVETest.node[18].veinsmobility 	totalCO2Emission 	267.35984621691
+scalar WAVETest.node[19].appl 	ReceivedUnicasts 	0
+scalar WAVETest.node[19].appl 	ReceivedBroadcasts 	0
+scalar WAVETest.node[19].appl 	SentUnicasts 	0
+scalar WAVETest.node[19].appl 	SentBroadcasts 	0
+statistic WAVETest.node[19].appl 	distance:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  distance
+attr title  "distance, stats"
+statistic WAVETest.node[19].appl 	delay:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  delay
+attr title  "delay time, stats"
+statistic WAVETest.node[19].appl 	hopLimit:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  hopLimit
+attr title  "hop limit, stats"
+scalar WAVETest.node[19].nic.phy80211p 	busyTime 	0.00014655650014601
+scalar WAVETest.node[19].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar WAVETest.node[19].nic.mac1609_4 	ReceivedBroadcasts 	31
+scalar WAVETest.node[19].nic.mac1609_4 	SentPackets 	6
+scalar WAVETest.node[19].nic.mac1609_4 	SNIRLostPackets 	0
+scalar WAVETest.node[19].nic.mac1609_4 	RXTXLostPackets 	0
+scalar WAVETest.node[19].nic.mac1609_4 	TotalLostPackets 	0
+scalar WAVETest.node[19].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar WAVETest.node[19].nic.mac1609_4 	TooLittleTime 	0
+scalar WAVETest.node[19].nic.mac1609_4 	TimesIntoBackoff 	10
+scalar WAVETest.node[19].nic.mac1609_4 	SlotsBackoff 	19
+scalar WAVETest.node[19].nic.mac1609_4 	NumInternalContention 	0
+scalar WAVETest.node[19].nic.mac1609_4 	totalBusyTime 	0.004445999963
+scalar WAVETest.node[19].veinsmobility 	startTime 	95.1
+scalar WAVETest.node[19].veinsmobility 	totalTime 	25.3
+scalar WAVETest.node[19].veinsmobility 	stopTime 	120.48270199748
+scalar WAVETest.node[19].veinsmobility 	minSpeed 	0.49264745102264
+scalar WAVETest.node[19].veinsmobility 	maxSpeed 	29.999111831596
+scalar WAVETest.node[19].veinsmobility 	totalDistance 	637.56555339542
+scalar WAVETest.node[19].veinsmobility 	totalCO2Emission 	237.14587009358
+scalar WAVETest.node[2].appl 	ReceivedUnicasts 	0
+scalar WAVETest.node[2].appl 	ReceivedBroadcasts 	0
+scalar WAVETest.node[2].appl 	SentUnicasts 	0
+scalar WAVETest.node[2].appl 	SentBroadcasts 	0
+statistic WAVETest.node[2].appl 	distance:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  distance
+attr title  "distance, stats"
+statistic WAVETest.node[2].appl 	delay:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  delay
+attr title  "delay time, stats"
+statistic WAVETest.node[2].appl 	hopLimit:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  hopLimit
+attr title  "hop limit, stats"
+scalar WAVETest.node[2].nic.phy80211p 	busyTime 	0.0001195839533834
+scalar WAVETest.node[2].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar WAVETest.node[2].nic.mac1609_4 	ReceivedBroadcasts 	110
+scalar WAVETest.node[2].nic.mac1609_4 	SentPackets 	23
+scalar WAVETest.node[2].nic.mac1609_4 	SNIRLostPackets 	0
+scalar WAVETest.node[2].nic.mac1609_4 	RXTXLostPackets 	0
+scalar WAVETest.node[2].nic.mac1609_4 	TotalLostPackets 	0
+scalar WAVETest.node[2].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar WAVETest.node[2].nic.mac1609_4 	TooLittleTime 	0
+scalar WAVETest.node[2].nic.mac1609_4 	TimesIntoBackoff 	24
+scalar WAVETest.node[2].nic.mac1609_4 	SlotsBackoff 	84
+scalar WAVETest.node[2].nic.mac1609_4 	NumInternalContention 	0
+scalar WAVETest.node[2].nic.mac1609_4 	totalBusyTime 	0.015982999867
+scalar WAVETest.node[2].veinsmobility 	startTime 	10.1
+scalar WAVETest.node[2].veinsmobility 	totalTime 	110.3
+scalar WAVETest.node[2].veinsmobility 	stopTime 	120.48270199748
+scalar WAVETest.node[2].veinsmobility 	minSpeed 	0.49292982601328
+scalar WAVETest.node[2].veinsmobility 	maxSpeed 	29.999981575762
+scalar WAVETest.node[2].veinsmobility 	totalDistance 	3180.8385000683
+scalar WAVETest.node[2].veinsmobility 	totalCO2Emission 	771.31757964113
+scalar WAVETest.node[20].appl 	ReceivedUnicasts 	0
+scalar WAVETest.node[20].appl 	ReceivedBroadcasts 	0
+scalar WAVETest.node[20].appl 	SentUnicasts 	0
+scalar WAVETest.node[20].appl 	SentBroadcasts 	0
+statistic WAVETest.node[20].appl 	distance:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  distance
+attr title  "distance, stats"
+statistic WAVETest.node[20].appl 	delay:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  delay
+attr title  "delay time, stats"
+statistic WAVETest.node[20].appl 	hopLimit:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  hopLimit
+attr title  "hop limit, stats"
+scalar WAVETest.node[20].nic.phy80211p 	busyTime 	0.00014718362537856
+scalar WAVETest.node[20].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar WAVETest.node[20].nic.mac1609_4 	ReceivedBroadcasts 	25
+scalar WAVETest.node[20].nic.mac1609_4 	SentPackets 	5
+scalar WAVETest.node[20].nic.mac1609_4 	SNIRLostPackets 	0
+scalar WAVETest.node[20].nic.mac1609_4 	RXTXLostPackets 	0
+scalar WAVETest.node[20].nic.mac1609_4 	TotalLostPackets 	0
+scalar WAVETest.node[20].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar WAVETest.node[20].nic.mac1609_4 	TooLittleTime 	0
+scalar WAVETest.node[20].nic.mac1609_4 	TimesIntoBackoff 	10
+scalar WAVETest.node[20].nic.mac1609_4 	SlotsBackoff 	17
+scalar WAVETest.node[20].nic.mac1609_4 	NumInternalContention 	0
+scalar WAVETest.node[20].nic.mac1609_4 	totalBusyTime 	0.00360499997
+scalar WAVETest.node[20].veinsmobility 	startTime 	100.1
+scalar WAVETest.node[20].veinsmobility 	totalTime 	20.3
+scalar WAVETest.node[20].veinsmobility 	stopTime 	120.48270199748
+scalar WAVETest.node[20].veinsmobility 	minSpeed 	0.47988404684584
+scalar WAVETest.node[20].veinsmobility 	maxSpeed 	29.999449944997
+scalar WAVETest.node[20].veinsmobility 	totalDistance 	493.56283581337
+scalar WAVETest.node[20].veinsmobility 	totalCO2Emission 	207.74771858595
+scalar WAVETest.node[21].appl 	ReceivedUnicasts 	0
+scalar WAVETest.node[21].appl 	ReceivedBroadcasts 	0
+scalar WAVETest.node[21].appl 	SentUnicasts 	0
+scalar WAVETest.node[21].appl 	SentBroadcasts 	0
+statistic WAVETest.node[21].appl 	distance:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  distance
+attr title  "distance, stats"
+statistic WAVETest.node[21].appl 	delay:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  delay
+attr title  "delay time, stats"
+statistic WAVETest.node[21].appl 	hopLimit:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  hopLimit
+attr title  "hop limit, stats"
+scalar WAVETest.node[21].nic.phy80211p 	busyTime 	0.00013261649242988
+scalar WAVETest.node[21].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar WAVETest.node[21].nic.mac1609_4 	ReceivedBroadcasts 	17
+scalar WAVETest.node[21].nic.mac1609_4 	SentPackets 	5
+scalar WAVETest.node[21].nic.mac1609_4 	SNIRLostPackets 	0
+scalar WAVETest.node[21].nic.mac1609_4 	RXTXLostPackets 	0
+scalar WAVETest.node[21].nic.mac1609_4 	TotalLostPackets 	0
+scalar WAVETest.node[21].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar WAVETest.node[21].nic.mac1609_4 	TooLittleTime 	0
+scalar WAVETest.node[21].nic.mac1609_4 	TimesIntoBackoff 	5
+scalar WAVETest.node[21].nic.mac1609_4 	SlotsBackoff 	11
+scalar WAVETest.node[21].nic.mac1609_4 	NumInternalContention 	0
+scalar WAVETest.node[21].nic.mac1609_4 	totalBusyTime 	0.002644999978
+scalar WAVETest.node[21].veinsmobility 	startTime 	105.1
+scalar WAVETest.node[21].veinsmobility 	totalTime 	15.3
+scalar WAVETest.node[21].veinsmobility 	stopTime 	120.48270199748
+scalar WAVETest.node[21].veinsmobility 	minSpeed 	0.48666951677296
+scalar WAVETest.node[21].veinsmobility 	maxSpeed 	29.999309423321
+scalar WAVETest.node[21].veinsmobility 	totalDistance 	342.08782003956
+scalar WAVETest.node[21].veinsmobility 	totalCO2Emission 	174.18287159855
+scalar WAVETest.node[22].appl 	ReceivedUnicasts 	0
+scalar WAVETest.node[22].appl 	ReceivedBroadcasts 	0
+scalar WAVETest.node[22].appl 	SentUnicasts 	0
+scalar WAVETest.node[22].appl 	SentBroadcasts 	0
+statistic WAVETest.node[22].appl 	distance:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  distance
+attr title  "distance, stats"
+statistic WAVETest.node[22].appl 	delay:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  delay
+attr title  "delay time, stats"
+statistic WAVETest.node[22].appl 	hopLimit:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  hopLimit
+attr title  "hop limit, stats"
+scalar WAVETest.node[22].nic.phy80211p 	busyTime 	0.00012713453485617
+scalar WAVETest.node[22].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar WAVETest.node[22].nic.mac1609_4 	ReceivedBroadcasts 	11
+scalar WAVETest.node[22].nic.mac1609_4 	SentPackets 	3
+scalar WAVETest.node[22].nic.mac1609_4 	SNIRLostPackets 	0
+scalar WAVETest.node[22].nic.mac1609_4 	RXTXLostPackets 	0
+scalar WAVETest.node[22].nic.mac1609_4 	TotalLostPackets 	0
+scalar WAVETest.node[22].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar WAVETest.node[22].nic.mac1609_4 	TooLittleTime 	0
+scalar WAVETest.node[22].nic.mac1609_4 	TimesIntoBackoff 	3
+scalar WAVETest.node[22].nic.mac1609_4 	SlotsBackoff 	17
+scalar WAVETest.node[22].nic.mac1609_4 	NumInternalContention 	0
+scalar WAVETest.node[22].nic.mac1609_4 	totalBusyTime 	0.001682999986
+scalar WAVETest.node[22].veinsmobility 	startTime 	110.1
+scalar WAVETest.node[22].veinsmobility 	totalTime 	10.3
+scalar WAVETest.node[22].veinsmobility 	stopTime 	120.48270199748
+scalar WAVETest.node[22].veinsmobility 	minSpeed 	0.4816563306842
+scalar WAVETest.node[22].veinsmobility 	maxSpeed 	29.998137605784
+scalar WAVETest.node[22].veinsmobility 	totalDistance 	196.83069604103
+scalar WAVETest.node[22].veinsmobility 	totalCO2Emission 	144.49028836389
+scalar WAVETest.node[23].appl 	ReceivedUnicasts 	0
+scalar WAVETest.node[23].appl 	ReceivedBroadcasts 	0
+scalar WAVETest.node[23].appl 	SentUnicasts 	0
+scalar WAVETest.node[23].appl 	SentBroadcasts 	0
+statistic WAVETest.node[23].appl 	distance:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  distance
+attr title  "distance, stats"
+statistic WAVETest.node[23].appl 	delay:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  delay
+attr title  "delay time, stats"
+statistic WAVETest.node[23].appl 	hopLimit:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  hopLimit
+attr title  "hop limit, stats"
+scalar WAVETest.node[23].nic.phy80211p 	busyTime 	0.0001114681799737
+scalar WAVETest.node[23].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar WAVETest.node[23].nic.mac1609_4 	ReceivedBroadcasts 	5
+scalar WAVETest.node[23].nic.mac1609_4 	SentPackets 	3
+scalar WAVETest.node[23].nic.mac1609_4 	SNIRLostPackets 	0
+scalar WAVETest.node[23].nic.mac1609_4 	RXTXLostPackets 	0
+scalar WAVETest.node[23].nic.mac1609_4 	TotalLostPackets 	0
+scalar WAVETest.node[23].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar WAVETest.node[23].nic.mac1609_4 	TooLittleTime 	0
+scalar WAVETest.node[23].nic.mac1609_4 	TimesIntoBackoff 	3
+scalar WAVETest.node[23].nic.mac1609_4 	SlotsBackoff 	10
+scalar WAVETest.node[23].nic.mac1609_4 	NumInternalContention 	0
+scalar WAVETest.node[23].nic.mac1609_4 	totalBusyTime 	0.000962999992
+scalar WAVETest.node[23].veinsmobility 	startTime 	115.1
+scalar WAVETest.node[23].veinsmobility 	totalTime 	5.3
+scalar WAVETest.node[23].veinsmobility 	stopTime 	120.48270199748
+scalar WAVETest.node[23].veinsmobility 	minSpeed 	0.49448965230258
+scalar WAVETest.node[23].veinsmobility 	maxSpeed 	20.720897988121
+scalar WAVETest.node[23].veinsmobility 	totalDistance 	56.877954990583
+scalar WAVETest.node[23].veinsmobility 	totalCO2Emission 	62.349242876309
+scalar WAVETest.node[24].appl 	ReceivedUnicasts 	0
+scalar WAVETest.node[24].appl 	ReceivedBroadcasts 	0
+scalar WAVETest.node[24].appl 	SentUnicasts 	0
+scalar WAVETest.node[24].appl 	SentBroadcasts 	0
+statistic WAVETest.node[24].appl 	distance:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  distance
+attr title  "distance, stats"
+statistic WAVETest.node[24].appl 	delay:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  delay
+attr title  "delay time, stats"
+statistic WAVETest.node[24].appl 	hopLimit:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  hopLimit
+attr title  "hop limit, stats"
+scalar WAVETest.node[24].nic.phy80211p 	busyTime 	0.00062711979446074
+scalar WAVETest.node[24].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar WAVETest.node[24].nic.mac1609_4 	ReceivedBroadcasts 	2
+scalar WAVETest.node[24].nic.mac1609_4 	SentPackets 	0
+scalar WAVETest.node[24].nic.mac1609_4 	SNIRLostPackets 	0
+scalar WAVETest.node[24].nic.mac1609_4 	RXTXLostPackets 	0
+scalar WAVETest.node[24].nic.mac1609_4 	TotalLostPackets 	0
+scalar WAVETest.node[24].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar WAVETest.node[24].nic.mac1609_4 	TooLittleTime 	0
+scalar WAVETest.node[24].nic.mac1609_4 	TimesIntoBackoff 	0
+scalar WAVETest.node[24].nic.mac1609_4 	SlotsBackoff 	0
+scalar WAVETest.node[24].nic.mac1609_4 	NumInternalContention 	0
+scalar WAVETest.node[24].nic.mac1609_4 	totalBusyTime 	0.000239999998
+scalar WAVETest.node[24].veinsmobility 	startTime 	120.1
+scalar WAVETest.node[24].veinsmobility 	totalTime 	0.3
+scalar WAVETest.node[24].veinsmobility 	stopTime 	120.48270199748
+scalar WAVETest.node[24].veinsmobility 	minSpeed 	0.49868673954043
+scalar WAVETest.node[24].veinsmobility 	maxSpeed 	1.3836586916739
+scalar WAVETest.node[24].veinsmobility 	totalDistance 	0.2832069955702
+scalar WAVETest.node[24].veinsmobility 	totalCO2Emission 	0.48122422664439
+scalar WAVETest.node[3].appl 	ReceivedUnicasts 	0
+scalar WAVETest.node[3].appl 	ReceivedBroadcasts 	0
+scalar WAVETest.node[3].appl 	SentUnicasts 	0
+scalar WAVETest.node[3].appl 	SentBroadcasts 	0
+statistic WAVETest.node[3].appl 	distance:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  distance
+attr title  "distance, stats"
+statistic WAVETest.node[3].appl 	delay:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  delay
+attr title  "delay time, stats"
+statistic WAVETest.node[3].appl 	hopLimit:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  hopLimit
+attr title  "hop limit, stats"
+scalar WAVETest.node[3].nic.phy80211p 	busyTime 	0.00014347705636131
+scalar WAVETest.node[3].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar WAVETest.node[3].nic.mac1609_4 	ReceivedBroadcasts 	126
+scalar WAVETest.node[3].nic.mac1609_4 	SentPackets 	23
+scalar WAVETest.node[3].nic.mac1609_4 	SNIRLostPackets 	0
+scalar WAVETest.node[3].nic.mac1609_4 	RXTXLostPackets 	0
+scalar WAVETest.node[3].nic.mac1609_4 	TotalLostPackets 	0
+scalar WAVETest.node[3].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar WAVETest.node[3].nic.mac1609_4 	TooLittleTime 	0
+scalar WAVETest.node[3].nic.mac1609_4 	TimesIntoBackoff 	23
+scalar WAVETest.node[3].nic.mac1609_4 	SlotsBackoff 	94
+scalar WAVETest.node[3].nic.mac1609_4 	NumInternalContention 	0
+scalar WAVETest.node[3].nic.mac1609_4 	totalBusyTime 	0.017902999851
+scalar WAVETest.node[3].veinsmobility 	startTime 	15.1
+scalar WAVETest.node[3].veinsmobility 	totalTime 	105.3
+scalar WAVETest.node[3].veinsmobility 	stopTime 	120.48270199748
+scalar WAVETest.node[3].veinsmobility 	minSpeed 	0.499061015388
+scalar WAVETest.node[3].veinsmobility 	maxSpeed 	29.99982711242
+scalar WAVETest.node[3].veinsmobility 	totalDistance 	3028.828574866
+scalar WAVETest.node[3].veinsmobility 	totalCO2Emission 	740.70842671062
+scalar WAVETest.node[4].appl 	ReceivedUnicasts 	0
+scalar WAVETest.node[4].appl 	ReceivedBroadcasts 	0
+scalar WAVETest.node[4].appl 	SentUnicasts 	0
+scalar WAVETest.node[4].appl 	SentBroadcasts 	0
+statistic WAVETest.node[4].appl 	distance:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  distance
+attr title  "distance, stats"
+statistic WAVETest.node[4].appl 	delay:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  delay
+attr title  "delay time, stats"
+statistic WAVETest.node[4].appl 	hopLimit:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  hopLimit
+attr title  "hop limit, stats"
+scalar WAVETest.node[4].nic.phy80211p 	busyTime 	0.00014584185907217
+scalar WAVETest.node[4].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar WAVETest.node[4].nic.mac1609_4 	ReceivedBroadcasts 	122
+scalar WAVETest.node[4].nic.mac1609_4 	SentPackets 	22
+scalar WAVETest.node[4].nic.mac1609_4 	SNIRLostPackets 	0
+scalar WAVETest.node[4].nic.mac1609_4 	RXTXLostPackets 	0
+scalar WAVETest.node[4].nic.mac1609_4 	TotalLostPackets 	0
+scalar WAVETest.node[4].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar WAVETest.node[4].nic.mac1609_4 	TooLittleTime 	0
+scalar WAVETest.node[4].nic.mac1609_4 	TimesIntoBackoff 	22
+scalar WAVETest.node[4].nic.mac1609_4 	SlotsBackoff 	78
+scalar WAVETest.node[4].nic.mac1609_4 	NumInternalContention 	0
+scalar WAVETest.node[4].nic.mac1609_4 	totalBusyTime 	0.017301999856
+scalar WAVETest.node[4].veinsmobility 	startTime 	20.1
+scalar WAVETest.node[4].veinsmobility 	totalTime 	100.3
+scalar WAVETest.node[4].veinsmobility 	stopTime 	120.48270199748
+scalar WAVETest.node[4].veinsmobility 	minSpeed 	0.48086686868919
+scalar WAVETest.node[4].veinsmobility 	maxSpeed 	29.999698106956
+scalar WAVETest.node[4].veinsmobility 	totalDistance 	2883.7776323327
+scalar WAVETest.node[4].veinsmobility 	totalCO2Emission 	718.24686215683
+scalar WAVETest.node[5].appl 	ReceivedUnicasts 	0
+scalar WAVETest.node[5].appl 	ReceivedBroadcasts 	0
+scalar WAVETest.node[5].appl 	SentUnicasts 	0
+scalar WAVETest.node[5].appl 	SentBroadcasts 	0
+statistic WAVETest.node[5].appl 	distance:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  distance
+attr title  "distance, stats"
+statistic WAVETest.node[5].appl 	delay:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  delay
+attr title  "delay time, stats"
+statistic WAVETest.node[5].appl 	hopLimit:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  hopLimit
+attr title  "hop limit, stats"
+scalar WAVETest.node[5].nic.phy80211p 	busyTime 	0.00014719649987867
+scalar WAVETest.node[5].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar WAVETest.node[5].nic.mac1609_4 	ReceivedBroadcasts 	117
+scalar WAVETest.node[5].nic.mac1609_4 	SentPackets 	21
+scalar WAVETest.node[5].nic.mac1609_4 	SNIRLostPackets 	0
+scalar WAVETest.node[5].nic.mac1609_4 	RXTXLostPackets 	0
+scalar WAVETest.node[5].nic.mac1609_4 	TotalLostPackets 	0
+scalar WAVETest.node[5].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar WAVETest.node[5].nic.mac1609_4 	TooLittleTime 	0
+scalar WAVETest.node[5].nic.mac1609_4 	TimesIntoBackoff 	22
+scalar WAVETest.node[5].nic.mac1609_4 	SlotsBackoff 	78
+scalar WAVETest.node[5].nic.mac1609_4 	NumInternalContention 	0
+scalar WAVETest.node[5].nic.mac1609_4 	totalBusyTime 	0.016580999862
+scalar WAVETest.node[5].veinsmobility 	startTime 	25.1
+scalar WAVETest.node[5].veinsmobility 	totalTime 	95.3
+scalar WAVETest.node[5].veinsmobility 	stopTime 	120.48270199748
+scalar WAVETest.node[5].veinsmobility 	minSpeed 	0.49417836313369
+scalar WAVETest.node[5].veinsmobility 	maxSpeed 	29.999147558759
+scalar WAVETest.node[5].veinsmobility 	totalDistance 	2735.3017106662
+scalar WAVETest.node[5].veinsmobility 	totalCO2Emission 	692.9300186882
+scalar WAVETest.node[6].appl 	ReceivedUnicasts 	0
+scalar WAVETest.node[6].appl 	ReceivedBroadcasts 	0
+scalar WAVETest.node[6].appl 	SentUnicasts 	0
+scalar WAVETest.node[6].appl 	SentBroadcasts 	0
+statistic WAVETest.node[6].appl 	distance:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  distance
+attr title  "distance, stats"
+statistic WAVETest.node[6].appl 	delay:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  delay
+attr title  "delay time, stats"
+statistic WAVETest.node[6].appl 	hopLimit:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  hopLimit
+attr title  "hop limit, stats"
+scalar WAVETest.node[6].nic.phy80211p 	busyTime 	0.00014870101901108
+scalar WAVETest.node[6].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar WAVETest.node[6].nic.mac1609_4 	ReceivedBroadcasts 	112
+scalar WAVETest.node[6].nic.mac1609_4 	SentPackets 	20
+scalar WAVETest.node[6].nic.mac1609_4 	SNIRLostPackets 	0
+scalar WAVETest.node[6].nic.mac1609_4 	RXTXLostPackets 	0
+scalar WAVETest.node[6].nic.mac1609_4 	TotalLostPackets 	0
+scalar WAVETest.node[6].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar WAVETest.node[6].nic.mac1609_4 	TooLittleTime 	0
+scalar WAVETest.node[6].nic.mac1609_4 	TimesIntoBackoff 	20
+scalar WAVETest.node[6].nic.mac1609_4 	SlotsBackoff 	70
+scalar WAVETest.node[6].nic.mac1609_4 	NumInternalContention 	0
+scalar WAVETest.node[6].nic.mac1609_4 	totalBusyTime 	0.015859999868
+scalar WAVETest.node[6].veinsmobility 	startTime 	30.1
+scalar WAVETest.node[6].veinsmobility 	totalTime 	90.3
+scalar WAVETest.node[6].veinsmobility 	stopTime 	120.48270199748
+scalar WAVETest.node[6].veinsmobility 	minSpeed 	0.49776263639797
+scalar WAVETest.node[6].veinsmobility 	maxSpeed 	29.999556903203
+scalar WAVETest.node[6].veinsmobility 	totalDistance 	2580.8007136585
+scalar WAVETest.node[6].veinsmobility 	totalCO2Emission 	645.7795096471
+scalar WAVETest.node[7].appl 	ReceivedUnicasts 	0
+scalar WAVETest.node[7].appl 	ReceivedBroadcasts 	333
+scalar WAVETest.node[7].appl 	SentUnicasts 	0
+scalar WAVETest.node[7].appl 	SentBroadcasts 	0
+statistic WAVETest.node[7].appl 	distance:stats
+field count 333
+field mean 454.02711700475
+field stddev 4.0627169594566
+field sum 151191.02996258
+field sqrsum 68650307.333029
+field min 448.38367545424
+field max 460.314675702
+attr interpolationmode  none
+attr source  distance
+attr title  "distance, stats"
+statistic WAVETest.node[7].appl 	delay:stats
+field count 333
+field mean 0.00049455472168171
+field stddev 0.00027424129207577
+field sum 0.16468672232001
+field sqrsum 0.0001064157471664
+field min 0.00043636125400023
+field max 0.0026506409969962
+attr interpolationmode  none
+attr source  delay
+attr title  "delay time, stats"
+statistic WAVETest.node[7].appl 	hopLimit:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  hopLimit
+attr title  "hop limit, stats"
+scalar WAVETest.node[7].nic.phy80211p 	busyTime 	0.00062541941524146
+scalar WAVETest.node[7].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar WAVETest.node[7].nic.mac1609_4 	ReceivedBroadcasts 	444
+scalar WAVETest.node[7].nic.mac1609_4 	SentPackets 	19
+scalar WAVETest.node[7].nic.mac1609_4 	SNIRLostPackets 	0
+scalar WAVETest.node[7].nic.mac1609_4 	RXTXLostPackets 	0
+scalar WAVETest.node[7].nic.mac1609_4 	TotalLostPackets 	0
+scalar WAVETest.node[7].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar WAVETest.node[7].nic.mac1609_4 	TooLittleTime 	0
+scalar WAVETest.node[7].nic.mac1609_4 	TimesIntoBackoff 	19
+scalar WAVETest.node[7].nic.mac1609_4 	SlotsBackoff 	82
+scalar WAVETest.node[7].nic.mac1609_4 	NumInternalContention 	0
+scalar WAVETest.node[7].nic.mac1609_4 	totalBusyTime 	0.055578999537
+scalar WAVETest.node[7].veinsmobility 	startTime 	35.1
+scalar WAVETest.node[7].veinsmobility 	totalTime 	85.3
+scalar WAVETest.node[7].veinsmobility 	stopTime 	120.48270199748
+scalar WAVETest.node[7].veinsmobility 	minSpeed 	0.49313562375028
+scalar WAVETest.node[7].veinsmobility 	maxSpeed 	29.99998485751
+scalar WAVETest.node[7].veinsmobility 	totalDistance 	2437.3939835134
+scalar WAVETest.node[7].veinsmobility 	totalCO2Emission 	621.81898121203
+scalar WAVETest.node[8].appl 	ReceivedUnicasts 	0
+scalar WAVETest.node[8].appl 	ReceivedBroadcasts 	334
+scalar WAVETest.node[8].appl 	SentUnicasts 	0
+scalar WAVETest.node[8].appl 	SentBroadcasts 	0
+statistic WAVETest.node[8].appl 	distance:stats
+field count 334
+field mean 299.89345694988
+field stddev 4.0850011977892
+field sum 100164.41462126
+field sqrsum 30044209.413314
+field min 294.21457290982
+field max 306.18653783172
+attr interpolationmode  none
+attr source  distance
+attr title  "distance, stats"
+statistic WAVETest.node[8].appl 	delay:stats
+field count 334
+field mean 0.00049390248808088
+field stddev 0.00027384083417746
+field sum 0.16496343101901
+field sqrsum 0.00010644712024283
+field min 0.00043584700200636
+field max 0.0026501267789947
+attr interpolationmode  none
+attr source  delay
+attr title  "delay time, stats"
+statistic WAVETest.node[8].appl 	hopLimit:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  hopLimit
+attr title  "hop limit, stats"
+scalar WAVETest.node[8].nic.phy80211p 	busyTime 	0.00065536487642144
+scalar WAVETest.node[8].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar WAVETest.node[8].nic.mac1609_4 	ReceivedBroadcasts 	439
+scalar WAVETest.node[8].nic.mac1609_4 	SentPackets 	18
+scalar WAVETest.node[8].nic.mac1609_4 	SNIRLostPackets 	0
+scalar WAVETest.node[8].nic.mac1609_4 	RXTXLostPackets 	0
+scalar WAVETest.node[8].nic.mac1609_4 	TotalLostPackets 	0
+scalar WAVETest.node[8].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar WAVETest.node[8].nic.mac1609_4 	TooLittleTime 	0
+scalar WAVETest.node[8].nic.mac1609_4 	TimesIntoBackoff 	18
+scalar WAVETest.node[8].nic.mac1609_4 	SlotsBackoff 	65
+scalar WAVETest.node[8].nic.mac1609_4 	NumInternalContention 	0
+scalar WAVETest.node[8].nic.mac1609_4 	totalBusyTime 	0.054857999543
+scalar WAVETest.node[8].veinsmobility 	startTime 	40.1
+scalar WAVETest.node[8].veinsmobility 	totalTime 	80.3
+scalar WAVETest.node[8].veinsmobility 	stopTime 	120.48270199748
+scalar WAVETest.node[8].veinsmobility 	minSpeed 	0.47809932876844
+scalar WAVETest.node[8].veinsmobility 	maxSpeed 	29.999981886649
+scalar WAVETest.node[8].veinsmobility 	totalDistance 	2283.2658456431
+scalar WAVETest.node[8].veinsmobility 	totalCO2Emission 	588.74080953107
+scalar WAVETest.node[9].appl 	ReceivedUnicasts 	0
+scalar WAVETest.node[9].appl 	ReceivedBroadcasts 	334
+scalar WAVETest.node[9].appl 	SentUnicasts 	0
+scalar WAVETest.node[9].appl 	SentBroadcasts 	0
+statistic WAVETest.node[9].appl 	distance:stats
+field count 334
+field mean 156.49973553324
+field stddev 4.0750050939648
+field sum 52270.911668102
+field sqrsum 8185913.5390889
+field min 150.83415183587
+field max 162.76969818445
+attr interpolationmode  none
+attr source  distance
+attr title  "distance, stats"
+statistic WAVETest.node[9].appl 	delay:stats
+field count 334
+field mean 0.00049342417785913
+field stddev 0.00027384082915239
+field sum 0.16480367540495
+field sqrsum 0.00010628938834857
+field min 0.00043536873600356
+field max 0.0026496484870003
+attr interpolationmode  none
+attr source  delay
+attr title  "delay time, stats"
+statistic WAVETest.node[9].appl 	hopLimit:stats
+field count 0
+field mean 0
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min 0
+field max 0
+attr interpolationmode  none
+attr source  hopLimit
+attr title  "hop limit, stats"
+scalar WAVETest.node[9].nic.phy80211p 	busyTime 	0.0006876909183984
+scalar WAVETest.node[9].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar WAVETest.node[9].nic.mac1609_4 	ReceivedBroadcasts 	432
+scalar WAVETest.node[9].nic.mac1609_4 	SentPackets 	17
+scalar WAVETest.node[9].nic.mac1609_4 	SNIRLostPackets 	0
+scalar WAVETest.node[9].nic.mac1609_4 	RXTXLostPackets 	0
+scalar WAVETest.node[9].nic.mac1609_4 	TotalLostPackets 	0
+scalar WAVETest.node[9].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar WAVETest.node[9].nic.mac1609_4 	TooLittleTime 	0
+scalar WAVETest.node[9].nic.mac1609_4 	TimesIntoBackoff 	32
+scalar WAVETest.node[9].nic.mac1609_4 	SlotsBackoff 	52
+scalar WAVETest.node[9].nic.mac1609_4 	NumInternalContention 	0
+scalar WAVETest.node[9].nic.mac1609_4 	totalBusyTime 	0.053896999551
+scalar WAVETest.node[9].veinsmobility 	startTime 	45.1
+scalar WAVETest.node[9].veinsmobility 	totalTime 	75.3
+scalar WAVETest.node[9].veinsmobility 	stopTime 	120.48270199748
+scalar WAVETest.node[9].veinsmobility 	minSpeed 	0.48096408257843
+scalar WAVETest.node[9].veinsmobility 	maxSpeed 	29.999521380232
+scalar WAVETest.node[9].veinsmobility 	totalDistance 	2139.8490059958
+scalar WAVETest.node[9].veinsmobility 	totalCO2Emission 	557.1430534275

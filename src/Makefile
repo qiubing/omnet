@@ -734,6 +734,10 @@ $O/modules/application/test/CarMove.o: modules/application/test/CarMove.cc \
 	inet/FWMath.h \
 	modules/application/test/CarMove.h
 $O/modules/application/test/cService.o: modules/application/test/cService.cc \
+	base/utils/MiXiMDefs.h \
+	base/utils/miximkerneldefs.h \
+	inet/Coord.h \
+	inet/FWMath.h \
 	modules/application/test/cService.h
 $O/modules/application/traci/TraCIDemo11p.o: modules/application/traci/TraCIDemo11p.cc \
 	base/connectionManager/BaseConnectionManager.h \
