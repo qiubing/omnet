@@ -16,10 +16,12 @@
 cplusplus {{
 #include "Coord.h"
 #include "CarMove.h"
+#include "RouteEntry.h"
 }}
 
 class noncobject Coord;
 class noncobject CarMove;
+class noncobject RouteEntry;
 
 packet WaveShortMessage{
     //Version of the Wave Short Message
@@ -50,6 +52,7 @@ packet WaveShortMessage{
 	double speed = 0;
 	
 	CarMove carlist[10] = 0;
+	RouteEntry routeTable[10] = 0;
 	
 	//extend keyword for mutilhop forward
 	//we intend to use WaveShortMessage to contain the WSA and WSM message 

@@ -89,6 +89,7 @@ OBJS = \
     $O/modules/analogueModel/SimpleObstacleShadowing.o \
     $O/modules/application/ieee80211p/BaseWaveApplLayer.o \
     $O/modules/application/test/AppTest1.o \
+    $O/modules/application/test/RouteEntry.o \
     $O/modules/application/test/Car.o \
     $O/modules/application/test/CarMove.o \
     $O/modules/application/test/cService.o \
@@ -678,6 +679,7 @@ $O/modules/application/ieee80211p/BaseWaveApplLayer.o: modules/application/ieee8
 	inet/FWMath.h \
 	modules/application/ieee80211p/BaseWaveApplLayer.h \
 	modules/application/test/CarMove.h \
+	modules/application/test/RouteEntry.h \
 	modules/mac/ieee80211p/WaveAppToMac1609_4Interface.h \
 	modules/messages/WaveShortMessage_m.h \
 	modules/utility/Consts80211p.h
@@ -705,6 +707,7 @@ $O/modules/application/test/AppTest1.o: modules/application/test/AppTest1.cc \
 	modules/application/test/AppTest1.h \
 	modules/application/test/Car.h \
 	modules/application/test/CarMove.h \
+	modules/application/test/RouteEntry.h \
 	modules/application/test/cService.h \
 	modules/application/wave/WaveAppLayer.h \
 	modules/mac/ieee80211p/WaveAppToMac1609_4Interface.h \
@@ -733,6 +736,8 @@ $O/modules/application/test/CarMove.o: modules/application/test/CarMove.cc \
 	inet/Coord.h \
 	inet/FWMath.h \
 	modules/application/test/CarMove.h
+$O/modules/application/test/RouteEntry.o: modules/application/test/RouteEntry.cc \
+	modules/application/test/RouteEntry.h
 $O/modules/application/test/cService.o: modules/application/test/cService.cc \
 	base/utils/MiXiMDefs.h \
 	base/utils/miximkerneldefs.h \
@@ -762,6 +767,7 @@ $O/modules/application/traci/TraCIDemo11p.o: modules/application/traci/TraCIDemo
 	inet/FWMath.h \
 	modules/application/ieee80211p/BaseWaveApplLayer.h \
 	modules/application/test/CarMove.h \
+	modules/application/test/RouteEntry.h \
 	modules/application/traci/TraCIDemo11p.h \
 	modules/mac/ieee80211p/WaveAppToMac1609_4Interface.h \
 	modules/messages/WaveShortMessage_m.h \
@@ -797,6 +803,7 @@ $O/modules/application/traci/TraCIDemoRSU11p.o: modules/application/traci/TraCID
 	inet/FWMath.h \
 	modules/application/ieee80211p/BaseWaveApplLayer.h \
 	modules/application/test/CarMove.h \
+	modules/application/test/RouteEntry.h \
 	modules/application/traci/TraCIDemoRSU11p.h \
 	modules/mac/ieee80211p/WaveAppToMac1609_4Interface.h \
 	modules/messages/WaveShortMessage_m.h \
@@ -853,6 +860,7 @@ $O/modules/application/wave/WaveAppLayer.o: modules/application/wave/WaveAppLaye
 	inet/Coord.h \
 	inet/FWMath.h \
 	modules/application/test/CarMove.h \
+	modules/application/test/RouteEntry.h \
 	modules/application/wave/WaveAppLayer.h \
 	modules/mac/ieee80211p/WaveAppToMac1609_4Interface.h \
 	modules/messages/WaveShortMessage_m.h \
@@ -900,6 +908,7 @@ $O/modules/mac/ieee80211p/Mac1609_4.o: modules/mac/ieee80211p/Mac1609_4.cc \
 	modules/analogueModel/LogNormalShadowing.h \
 	modules/analogueModel/SimplePathlossModel.h \
 	modules/application/test/CarMove.h \
+	modules/application/test/RouteEntry.h \
 	modules/mac/ieee80211p/Mac1609_4.h \
 	modules/mac/ieee80211p/Mac80211pToPhy11pInterface.h \
 	modules/mac/ieee80211p/WaveAppToMac1609_4Interface.h \
@@ -939,6 +948,7 @@ $O/modules/messages/WaveShortMessage_m.o: modules/messages/WaveShortMessage_m.cc
 	inet/Coord.h \
 	inet/FWMath.h \
 	modules/application/test/CarMove.h \
+	modules/application/test/RouteEntry.h \
 	modules/messages/WaveShortMessage_m.h
 $O/modules/mobility/traci/TraCIBuffer.o: modules/mobility/traci/TraCIBuffer.cc \
 	modules/mobility/traci/TraCIBuffer.h \
@@ -1052,6 +1062,7 @@ $O/modules/netwlayer/Wave1609_3.o: modules/netwlayer/Wave1609_3.cc \
 	inet/Coord.h \
 	inet/FWMath.h \
 	modules/application/test/CarMove.h \
+	modules/application/test/RouteEntry.h \
 	modules/messages/WaveShortMessage_m.h \
 	modules/netwlayer/Wave1609_3.h
 $O/modules/obstacle/Obstacle.o: modules/obstacle/Obstacle.cc \

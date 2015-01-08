@@ -24,6 +24,7 @@
 #include "CarMove.h"
 #include "Coord.h"
 #include "stdint.h"
+#include "RouteEntry.h"
 #include <map>
 #include <list>
 #include <iostream>
@@ -84,6 +85,9 @@ public:
     /*update the car position information and remove the car information that timestamp more than 5s*/
     virtual void updateCarStatusList();
 
+    /*update the car route table information periodically the timestamp is the important key to decide how update the list*/
+    virtual void updateRouteTable();
+
     /*calculate the distance between  two coordiante */
     virtual double distance(const Coord& a,const Coord& b);
 
@@ -96,6 +100,9 @@ public:
 
     /*select next forward car for the unicast,the distance must leave the destination nearest and in the same direction beside in the communication range*/
     virtual int selectNextCar(int dest);
+
+    /*select next forward car for the unicast with the route table,which is update without car position information*/
+    virtual int selectNextCarWithRouteTable(int dest);
 
     /*select next forward channel and build the service */
     virtual int selectNextChannel();
@@ -127,6 +134,9 @@ protected:
     /*update position status event*/
     cMessage* updatePOSEvent;
 
+    /*update route table information event*/
+    cMessage* updateRouteTableEvent;
+
     /*Self Message to timing send message*/
     cMessage *unicastEvent;
 
@@ -145,6 +155,7 @@ protected:
     int serial;
     bool positionRoute;//route flag,if it is true,then use car position route,otherwise route with no car position
 
+    int carId;//select different car to simulator different scene
     int sender;
     int hopCount;
 
@@ -167,6 +178,9 @@ protected:
 
     //every node maintain a table about others moving status
     map<int,CarMove*> carMoveStatus;
+
+    //every node maintain a route table about to other moving nodes without position information
+    map<int,RouteEntry*> routeTable;
 
     /*statics send count*/
     int sendCount;

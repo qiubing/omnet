@@ -37,4 +37,5 @@ simple AppTest1 extends WaveAppLayer{
         bool sentWSM = default(false); //whether this applayer should send data
         volatile double SendInterval = default(0.1s) @unit(s); //repeat send packets interval
         bool positionRoute = default(false);//is route with car position information
+        volatile int carId;//select the car id to simulate different scene
 }

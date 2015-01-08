@@ -122,6 +122,8 @@ void WaveShortMessage::copy(const WaveShortMessage& other)
     this->speed_var = other.speed_var;
     for (unsigned int i=0; i<10; i++)
         this->carlist_var[i] = other.carlist_var[i];
+    for (unsigned int i=0; i<10; i++)
+        this->routeTable_var[i] = other.routeTable_var[i];
     this->hopLimit_var = other.hopLimit_var;
     this->flag_var = other.flag_var;
     this->originalAddress_var = other.originalAddress_var;
@@ -156,6 +158,7 @@ void WaveShortMessage::parsimPack(cCommBuffer *b)
     doPacking(b,this->direction_var);
     doPacking(b,this->speed_var);
     doPacking(b,this->carlist_var,10);
+    doPacking(b,this->routeTable_var,10);
     doPacking(b,this->hopLimit_var);
     doPacking(b,this->flag_var);
     doPacking(b,this->originalAddress_var);
@@ -190,6 +193,7 @@ void WaveShortMessage::parsimUnpack(cCommBuffer *b)
     doUnpacking(b,this->direction_var);
     doUnpacking(b,this->speed_var);
     doUnpacking(b,this->carlist_var,10);
+    doUnpacking(b,this->routeTable_var,10);
     doUnpacking(b,this->hopLimit_var);
     doUnpacking(b,this->flag_var);
     doUnpacking(b,this->originalAddress_var);
@@ -381,6 +385,23 @@ void WaveShortMessage::setCarlist(unsigned int k, const CarMove& carlist)
     this->carlist_var[k] = carlist;
 }
 
+unsigned int WaveShortMessage::getRouteTableArraySize() const
+{
+    return 10;
+}
+
+RouteEntry& WaveShortMessage::getRouteTable(unsigned int k)
+{
+    if (k>=10) throw cRuntimeError("Array of size 10 indexed by %lu", (unsigned long)k);
+    return routeTable_var[k];
+}
+
+void WaveShortMessage::setRouteTable(unsigned int k, const RouteEntry& routeTable)
+{
+    if (k>=10) throw cRuntimeError("Array of size 10 indexed by %lu", (unsigned long)k);
+    this->routeTable_var[k] = routeTable;
+}
+
 int WaveShortMessage::getHopLimit() const
 {
     return hopLimit_var;
@@ -548,7 +569,7 @@ const char *WaveShortMessageDescriptor::getProperty(const char *propertyname) co
 int WaveShortMessageDescriptor::getFieldCount(void *object) const
 {
     cClassDescriptor *basedesc = getBaseClassDescriptor();
-    return basedesc ? 29+basedesc->getFieldCount(object) : 29;
+    return basedesc ? 30+basedesc->getFieldCount(object) : 30;
 }
 
 unsigned int WaveShortMessageDescriptor::getFieldTypeFlags(void *object, int field) const
@@ -577,6 +598,7 @@ unsigned int WaveShortMessageDescriptor::getFieldTypeFlags(void *object, int fie
         FD_ISCOMPOUND,
         FD_ISEDITABLE,
         FD_ISARRAY | FD_ISCOMPOUND,
+        FD_ISARRAY | FD_ISCOMPOUND,
         FD_ISEDITABLE,
         FD_ISEDITABLE,
         FD_ISEDITABLE,
@@ -590,7 +612,7 @@ unsigned int WaveShortMessageDescriptor::getFieldTypeFlags(void *object, int fie
         FD_ISEDITABLE,
         FD_ISEDITABLE,
     };
-    return (field>=0 && field<29) ? fieldTypeFlags[field] : 0;
+    return (field>=0 && field<30) ? fieldTypeFlags[field] : 0;
 }
 
 const char *WaveShortMessageDescriptor::getFieldName(void *object, int field) const
@@ -619,6 +641,7 @@ const char *WaveShortMessageDescriptor::getFieldName(void *object, int field) co
         "direction",
         "speed",
         "carlist",
+        "routeTable",
         "hopLimit",
         "flag",
         "originalAddress",
@@ -632,7 +655,7 @@ const char *WaveShortMessageDescriptor::getFieldName(void *object, int field) co
         "hopLimit2",
         "timeStamp2",
     };
-    return (field>=0 && field<29) ? fieldNames[field] : NULL;
+    return (field>=0 && field<30) ? fieldNames[field] : NULL;
 }
 
 int WaveShortMessageDescriptor::findField(void *object, const char *fieldName) const
@@ -656,18 +679,19 @@ int WaveShortMessageDescriptor::findField(void *object, const char *fieldName) c
     if (fieldName[0]=='d' && strcmp(fieldName, "direction")==0) return base+14;
     if (fieldName[0]=='s' && strcmp(fieldName, "speed")==0) return base+15;
     if (fieldName[0]=='c' && strcmp(fieldName, "carlist")==0) return base+16;
-    if (fieldName[0]=='h' && strcmp(fieldName, "hopLimit")==0) return base+17;
-    if (fieldName[0]=='f' && strcmp(fieldName, "flag")==0) return base+18;
-    if (fieldName[0]=='o' && strcmp(fieldName, "originalAddress")==0) return base+19;
-    if (fieldName[0]=='u' && strcmp(fieldName, "userPriority")==0) return base+20;
-    if (fieldName[0]=='n' && strcmp(fieldName, "nextForwardAddress")==0) return base+21;
-    if (fieldName[0]=='p' && strcmp(fieldName, "psid2")==0) return base+22;
-    if (fieldName[0]=='f' && strcmp(fieldName, "flag2")==0) return base+23;
-    if (fieldName[0]=='u' && strcmp(fieldName, "userPriority2")==0) return base+24;
-    if (fieldName[0]=='s' && strcmp(fieldName, "sch2")==0) return base+25;
-    if (fieldName[0]=='d' && strcmp(fieldName, "dst2")==0) return base+26;
-    if (fieldName[0]=='h' && strcmp(fieldName, "hopLimit2")==0) return base+27;
-    if (fieldName[0]=='t' && strcmp(fieldName, "timeStamp2")==0) return base+28;
+    if (fieldName[0]=='r' && strcmp(fieldName, "routeTable")==0) return base+17;
+    if (fieldName[0]=='h' && strcmp(fieldName, "hopLimit")==0) return base+18;
+    if (fieldName[0]=='f' && strcmp(fieldName, "flag")==0) return base+19;
+    if (fieldName[0]=='o' && strcmp(fieldName, "originalAddress")==0) return base+20;
+    if (fieldName[0]=='u' && strcmp(fieldName, "userPriority")==0) return base+21;
+    if (fieldName[0]=='n' && strcmp(fieldName, "nextForwardAddress")==0) return base+22;
+    if (fieldName[0]=='p' && strcmp(fieldName, "psid2")==0) return base+23;
+    if (fieldName[0]=='f' && strcmp(fieldName, "flag2")==0) return base+24;
+    if (fieldName[0]=='u' && strcmp(fieldName, "userPriority2")==0) return base+25;
+    if (fieldName[0]=='s' && strcmp(fieldName, "sch2")==0) return base+26;
+    if (fieldName[0]=='d' && strcmp(fieldName, "dst2")==0) return base+27;
+    if (fieldName[0]=='h' && strcmp(fieldName, "hopLimit2")==0) return base+28;
+    if (fieldName[0]=='t' && strcmp(fieldName, "timeStamp2")==0) return base+29;
     return basedesc ? basedesc->findField(object, fieldName) : -1;
 }
 
@@ -697,6 +721,7 @@ const char *WaveShortMessageDescriptor::getFieldTypeString(void *object, int fie
         "Coord",
         "double",
         "CarMove",
+        "RouteEntry",
         "int",
         "int",
         "int",
@@ -710,7 +735,7 @@ const char *WaveShortMessageDescriptor::getFieldTypeString(void *object, int fie
         "int",
         "simtime_t",
     };
-    return (field>=0 && field<29) ? fieldTypeStrings[field] : NULL;
+    return (field>=0 && field<30) ? fieldTypeStrings[field] : NULL;
 }
 
 const char *WaveShortMessageDescriptor::getFieldProperty(void *object, int field, const char *propertyname) const
@@ -737,6 +762,7 @@ int WaveShortMessageDescriptor::getArraySize(void *object, int field) const
     WaveShortMessage *pp = (WaveShortMessage *)object; (void)pp;
     switch (field) {
         case 16: return 10;
+        case 17: return 10;
         default: return 0;
     }
 }
@@ -768,18 +794,19 @@ std::string WaveShortMessageDescriptor::getFieldAsString(void *object, int field
         case 14: {std::stringstream out; out << pp->getDirection(); return out.str();}
         case 15: return double2string(pp->getSpeed());
         case 16: {std::stringstream out; out << pp->getCarlist(i); return out.str();}
-        case 17: return long2string(pp->getHopLimit());
-        case 18: return long2string(pp->getFlag());
-        case 19: return long2string(pp->getOriginalAddress());
-        case 20: return long2string(pp->getUserPriority());
-        case 21: return long2string(pp->getNextForwardAddress());
-        case 22: return long2string(pp->getPsid2());
-        case 23: return long2string(pp->getFlag2());
-        case 24: return long2string(pp->getUserPriority2());
-        case 25: return long2string(pp->getSch2());
-        case 26: return long2string(pp->getDst2());
-        case 27: return long2string(pp->getHopLimit2());
-        case 28: return double2string(pp->getTimeStamp2());
+        case 17: {std::stringstream out; out << pp->getRouteTable(i); return out.str();}
+        case 18: return long2string(pp->getHopLimit());
+        case 19: return long2string(pp->getFlag());
+        case 20: return long2string(pp->getOriginalAddress());
+        case 21: return long2string(pp->getUserPriority());
+        case 22: return long2string(pp->getNextForwardAddress());
+        case 23: return long2string(pp->getPsid2());
+        case 24: return long2string(pp->getFlag2());
+        case 25: return long2string(pp->getUserPriority2());
+        case 26: return long2string(pp->getSch2());
+        case 27: return long2string(pp->getDst2());
+        case 28: return long2string(pp->getHopLimit2());
+        case 29: return double2string(pp->getTimeStamp2());
         default: return "";
     }
 }
@@ -808,18 +835,18 @@ bool WaveShortMessageDescriptor::setFieldAsString(void *object, int field, int i
         case 11: pp->setSerial(string2long(value)); return true;
         case 13: pp->setTimestamp(string2double(value)); return true;
         case 15: pp->setSpeed(string2double(value)); return true;
-        case 17: pp->setHopLimit(string2long(value)); return true;
-        case 18: pp->setFlag(string2long(value)); return true;
-        case 19: pp->setOriginalAddress(string2long(value)); return true;
-        case 20: pp->setUserPriority(string2long(value)); return true;
-        case 21: pp->setNextForwardAddress(string2long(value)); return true;
-        case 22: pp->setPsid2(string2long(value)); return true;
-        case 23: pp->setFlag2(string2long(value)); return true;
-        case 24: pp->setUserPriority2(string2long(value)); return true;
-        case 25: pp->setSch2(string2long(value)); return true;
-        case 26: pp->setDst2(string2long(value)); return true;
-        case 27: pp->setHopLimit2(string2long(value)); return true;
-        case 28: pp->setTimeStamp2(string2double(value)); return true;
+        case 18: pp->setHopLimit(string2long(value)); return true;
+        case 19: pp->setFlag(string2long(value)); return true;
+        case 20: pp->setOriginalAddress(string2long(value)); return true;
+        case 21: pp->setUserPriority(string2long(value)); return true;
+        case 22: pp->setNextForwardAddress(string2long(value)); return true;
+        case 23: pp->setPsid2(string2long(value)); return true;
+        case 24: pp->setFlag2(string2long(value)); return true;
+        case 25: pp->setUserPriority2(string2long(value)); return true;
+        case 26: pp->setSch2(string2long(value)); return true;
+        case 27: pp->setDst2(string2long(value)); return true;
+        case 28: pp->setHopLimit2(string2long(value)); return true;
+        case 29: pp->setTimeStamp2(string2double(value)); return true;
         default: return false;
     }
 }
@@ -836,6 +863,7 @@ const char *WaveShortMessageDescriptor::getFieldStructName(void *object, int fie
         case 12: return opp_typename(typeid(Coord));
         case 14: return opp_typename(typeid(Coord));
         case 16: return opp_typename(typeid(CarMove));
+        case 17: return opp_typename(typeid(RouteEntry));
         default: return NULL;
     };
 }
@@ -853,6 +881,7 @@ void *WaveShortMessageDescriptor::getFieldStructPointer(void *object, int field,
         case 12: return (void *)(&pp->getSenderPos()); break;
         case 14: return (void *)(&pp->getDirection()); break;
         case 16: return (void *)(&pp->getCarlist(i)); break;
+        case 17: return (void *)(&pp->getRouteTable(i)); break;
         default: return NULL;
     }
 }

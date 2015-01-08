@@ -16,6 +16,7 @@
 // cplusplus {{
 #include "Coord.h"
 #include "CarMove.h"
+#include "RouteEntry.h"
 // }}
 
 
@@ -52,6 +53,7 @@
  * 	double speed = 0;
  * 	
  * 	CarMove carlist[10] = 0;
+ * 	RouteEntry routeTable[10] = 0;
  * 	
  * 	
  * 	
@@ -102,6 +104,7 @@ class WaveShortMessage : public ::cPacket
     Coord direction_var;
     double speed_var;
     CarMove carlist_var[10];
+    RouteEntry routeTable_var[10];
     int hopLimit_var;
     int flag_var;
     int originalAddress_var;
@@ -170,6 +173,10 @@ class WaveShortMessage : public ::cPacket
     virtual CarMove& getCarlist(unsigned int k);
     virtual const CarMove& getCarlist(unsigned int k) const {return const_cast<WaveShortMessage*>(this)->getCarlist(k);}
     virtual void setCarlist(unsigned int k, const CarMove& carlist);
+    virtual unsigned int getRouteTableArraySize() const;
+    virtual RouteEntry& getRouteTable(unsigned int k);
+    virtual const RouteEntry& getRouteTable(unsigned int k) const {return const_cast<WaveShortMessage*>(this)->getRouteTable(k);}
+    virtual void setRouteTable(unsigned int k, const RouteEntry& routeTable);
     virtual int getHopLimit() const;
     virtual void setHopLimit(int hopLimit);
     virtual int getFlag() const;
