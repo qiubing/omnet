@@ -20,4 +20,5 @@ tests/**/err.tmp
 examples/**/results
 examples/**/.tkenvrc
 examples/**/valgrind.out
+examples/**/*.elog
 examples/wavetest/core
