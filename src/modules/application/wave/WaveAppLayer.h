@@ -55,7 +55,7 @@ protected:
     virtual void handleSelfMsg(cMessage* msg);
 
     virtual WaveShortMessage* prepareBaseMSG(std::string name, int dataLengthBits, int priority,int channelNumber,double speed,const Coord &direction,simtime_t timeStamp);
-    virtual WaveShortMessage* prepareWSM(WaveShortMessage* msg, int psid, int hopLimit, int flag,int recvId,int originalSender);
+    virtual WaveShortMessage* prepareWSM(WaveShortMessage* msg, int psid, int hopLimit, int flag,int recvId,int originalSender,int usrPriority);
     virtual WaveShortMessage* prepareWSA(WaveShortMessage* msg, int psid, int hopLimit, int flag,int userPriority,int dst);
     virtual WaveShortMessage* prepareWSA2(WaveShortMessage* msg,int psid2, int hopLimit2, int flag2, int userPriority2, int sch2, int dst2,simtime_t timeStamp2);
     /*

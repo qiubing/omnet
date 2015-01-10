@@ -38,4 +38,7 @@ simple AppTest1 extends WaveAppLayer{
         volatile double SendInterval = default(0.1s) @unit(s); //repeat send packets interval
         bool positionRoute = default(false);//is route with car position information
         volatile int carId;//select the car id to simulate different scene
+        volatile double positionUpdateInterval = default(60s) @unit(s);//position list update interval
+        volatile double routeTableUpdateInterval = default(60s) @unit(s);//route table update interval
+        volatile double serviceUpdateInterval = default(1s) @unit(s);//service list update interval
 }

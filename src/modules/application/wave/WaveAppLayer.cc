@@ -100,13 +100,14 @@ WaveShortMessage* WaveAppLayer::prepareBaseMSG(std::string name, int dataLengthB
     return wsm;
 }
 
-WaveShortMessage* WaveAppLayer::prepareWSM(WaveShortMessage *msg, int psid, int hopLimit, int flag, int rcvId,int originalSender)
+WaveShortMessage* WaveAppLayer::prepareWSM(WaveShortMessage *msg, int psid, int hopLimit, int flag, int rcvId,int originalSender, int usrPriority)
 {
     WaveShortMessage* wsm = dynamic_cast<WaveShortMessage*>(msg);
     ASSERT(wsm);
     wsm->setPsid(psid);
     wsm->setHopLimit(hopLimit);
     wsm->setFlag(flag);
+    wsm->setUserPriority(usrPriority);
     wsm->setOriginalAddress(originalSender);
     wsm->setNextForwardAddress(rcvId);
     wsm->setRecipientAddress(rcvId);

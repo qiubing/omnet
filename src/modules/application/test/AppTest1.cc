@@ -49,6 +49,9 @@ void AppTest1::initialize(int stage){
         posFlag = false;
         positionRoute = par("positionRoute").boolValue();//choose route table without car position
         carId = par("carId").longValue();
+        positionUpdateInterval = par("positionUpdateInterval").doubleValue();
+        routeTableUpdateInterval = par("routeTableUpdateInterval").doubleValue();
+        serviceUpdateInterval = par("serviceUpdateInterval").doubleValue();
 
         /*get the car move status*/
         carMove.setCarId(myId);
@@ -60,6 +63,7 @@ void AppTest1::initialize(int stage){
         nextWSMEvent = new cMessage("next WSM Event");
         updatePOSEvent = new cMessage("next update position Event");
         updateRouteTableEvent = new cMessage("next update route information Event");
+        updateServiceEvent = new cMessage("next update available service Event");
 
         sendInterval = par("SendInterval").doubleValue();
         //simulate asynchronous channel access
@@ -84,36 +88,37 @@ void AppTest1::initialize(int stage){
             unicastEvent->setSrcProcId(myId);
             double offsetTime = dblrand()*0.10 + carId*0.10;
             double startTime = offsetTime;
+
             switch (carId) {
                 case 0:
-                    startTime += 130.0;
+                    startTime += 160.0;
                     break;
                 case 1:
-                    startTime += 120.0;
+                    startTime += 150.0;
                     break;
                 case 2:
-                    startTime += 110.0;
-                    break;
-                case 3:
-                    startTime += 100.0;
-                    break;
-                case 4:
-                    startTime += 80.0;
-                    break;
-                case 5:
-                    startTime += 70.0;
-                    break;
-                case 6:
-                    startTime += 60.0;
-                    break;
-                case 7:
-                    startTime += 50.0;
-                    break;
-                default:
                     startTime += 140.0;
                     break;
+                case 3:
+                    startTime += 130.0;
+                    break;
+                case 4:
+                    startTime += 120.0;
+                    break;
+                case 5:
+                    startTime += 110.0;
+                    break;
+                case 6:
+                    startTime += 100.0;
+                    break;
+                case 7:
+                    startTime += 90.0;
+                    break;
+                default:
+                    startTime += 80.0;
+                    break;
             }
-            //double startTime = 50.0 + (7 - carId)*10.0 + offsetTime;
+
             scheduleAt(startTime + individualOffset,unicastEvent);
         }
 
@@ -209,6 +214,8 @@ void AppTest1::initialize(int stage){
             cService* service = new cService(psid,Channels::SCH1,priority,-1,0,0,myId,1);
             service->setTimestamp(simTime());
             service->setPositions(curPosition);
+            service->setExpire(0.20);//expire time
+            service->setExpireTime(simTime()+0.20);
             psidService pService;
             pService.insert(make_pair(psid,service));
             providerServiceList.insert(make_pair(Channels::SCH1,pService));
@@ -222,6 +229,8 @@ void AppTest1::initialize(int stage){
             cService* service = new cService(psid,Channels::SCH2,priority,-1,1,0,myId,1);
             service->setTimestamp(simTime());
             service->setPositions(curPosition);
+            service->setExpire(0.20);
+            service->setExpireTime(simTime()+0.20);
             psidService pService;
             pService.insert(make_pair(psid,service));
             providerServiceList.insert(make_pair(Channels::SCH2,pService));
@@ -236,6 +245,8 @@ void AppTest1::initialize(int stage){
             cService* service = new cService(psid,Channels::SCH3,priority,-1,2,0,myId,1);
             service->setTimestamp(simTime());
             service->setPositions(curPosition);
+            service->setExpire(0.20);
+            service->setExpireTime(simTime()+0.20);
             psidService pService;
             pService.insert(make_pair(psid,service));
             providerServiceList.insert(make_pair(Channels::SCH3,pService));
@@ -249,6 +260,8 @@ void AppTest1::initialize(int stage){
             cService* service = new cService(psid,Channels::SCH4,priority,-1,1,0,myId,1);
             service->setTimestamp(simTime());
             service->setPositions(curPosition);
+            service->setExpire(0.20);
+            service->setExpireTime(simTime()+0.20);
             psidService pService;
             pService.insert(make_pair(psid,service));
             providerServiceList.insert(make_pair(Channels::SCH4,pService));
@@ -256,6 +269,7 @@ void AppTest1::initialize(int stage){
             " and flag :" << service->getFlag() << "at the time:" << service->getTimestamp() << std::endl;
 
         }
+
         availableServiceList.clear();
         subscribeServiceList.clear();
         carList.clear();
@@ -288,6 +302,8 @@ void AppTest1::initialize(int stage){
         }else{
             scheduleAt(simTime() + 5.0 + randomOffset,updateRouteTableEvent);
         }
+        double randomOffset2 = dblrand()*0.01 + intuniform(0,9)*.15;
+        scheduleAt(simTime() + randomOffset2,updateServiceEvent);
     }
 }
 
@@ -335,14 +351,18 @@ void AppTest1::onWSA(WaveShortMessage* msg){
         int serial = wsm->getSerial();
         cService *service = new cService(psid,sch,priority,dst,flag,hopLimit,originalSender,serial);
         service->setTimestamp(wsm->getTimestamp());
-        insertService(&availableServiceList,service);
+        service->setExpire(wsm->getExpireTime1());
+        service->setExpireTime(simTime()+wsm->getExpireTime1());
+        insertService(availableServiceList,service);
     }
 
     if(wsm->getPsid2() != 0)
     {
         cService *service2 = new cService(wsm->getPsid2(),wsm->getSch2(),wsm->getUserPriority2(),wsm->getDst2(),wsm->getFlag2(),wsm->getHopLimit2(),wsm->getOriginalAddress(),wsm->getSerial());
         service2->setTimestamp(wsm->getTimeStamp2());
-        insertService(&availableServiceList,service2);
+        service2->setExpire(wsm->getExpireTime2());
+        service2->setExpireTime(simTime()+wsm->getExpireTime2());
+        insertService(availableServiceList,service2);
     }
 
     if(positionRoute){
@@ -472,7 +492,7 @@ void AppTest1::onWSM(WaveShortMessage* msg){
     /*1.first let we delete the service we have receive in the available servicelist*/
     int channel = wsm->getChannelNumber();
     int psid = wsm->getPsid();
-    deleteServie(&availableServiceList,channel,psid);
+    deleteServie(availableServiceList,channel,psid);
 
     /*2.judge the packet is to me.if the packet is to me and the destination address is unicast, then receive the packet and complete the communication*/
     int dst = wsm->getRecipientAddress();// destination address
@@ -547,7 +567,8 @@ void AppTest1::sendWSMMessage(std::string blockedRoadId){
     if(!broadcastServiceList.empty()){
         cService *service = broadcastServiceList.front();
         WaveShortMessage *wsm = prepareBaseMSG("wsm",dataLengthBits,dataPriority,service->getSch(),carMove.getSpeed(),carMove.getDirection(),service->getTimestamp());
-        wsm = prepareWSM(wsm,service->getPsid(),service->getHopLimit(),service->getFlag(),service->getDst(),service->getOriginalSender());
+        wsm = prepareWSM(wsm,service->getPsid(),service->getHopLimit(),service->getFlag(),service->getDst(),service->getOriginalSender(),service->getPriority());
+        wsm->setExpireTime1(service->getExpire());
         wsm->setSenderPos(service->getPositions());
         wsm->setWsmData(blockedRoadId.c_str());
         if(wsm->getOriginalAddress() == myId)
@@ -572,12 +593,13 @@ void AppTest1::sendWSMMessage(std::string blockedRoadId){
             DBG<<"###Apptest1:The sendInterval is: " << sendInterval << std::endl;
         }else{//repeat send broadcast packets
             broadcastServiceList.pop_front();
-            deleteServie(&providerServiceList,service->getSch(),service->getPsid());
+            deleteServie(providerServiceList,service->getSch(),service->getPsid());
             /*send the next wsm message until the sch time is arrived or there is no service to provide*/
-            if(nextWSMEvent->isScheduled()){
+            /*if(nextWSMEvent->isScheduled()){
                 cancelEvent(nextWSMEvent);
             }
             scheduleAt(simTime()+ 0.010,nextWSMEvent);
+            */
         }
         return;
     }else{
@@ -636,6 +658,7 @@ void AppTest1::sendWSAMessage(std::string blockedRoadId)
                     cService *service = iter->second;
                     WaveShortMessage *wsa = prepareBaseMSG("wsa",dataLengthBits,dataPriority,service->getSch(),carMove.getSpeed(),carMove.getDirection(),service->getTimestamp());
                     wsa = prepareWSA(wsa,service->getPsid(),service->getHopLimit(),service->getFlag(),service->getPriority(),service->getDst());
+                    wsa->setExpireTime1(service->getExpire());
                     wsa->setWsmData(blockedRoadId.c_str());
                     /*record the broadcasted service */
                     broadcastServiceList.push_back(service);
@@ -645,6 +668,7 @@ void AppTest1::sendWSAMessage(std::string blockedRoadId)
                     {
                         cService *service1 = iter->second;
                         wsa = prepareWSA2(wsa,service1->getPsid(),service1->getHopLimit(),service1->getFlag(),service1->getPriority(),service1->getSch(),service1->getDst(),service1->getTimestamp());
+                        wsa->setExpireTime2(service1->getExpire());
                         /*record the broadcasted service*/
                         broadcastServiceList.push_back(service1);
                     }
@@ -789,7 +813,7 @@ void AppTest1::updateChannelWeight(ServiceListType &serviceList,ChannelWeightTyp
     {
         float weight = 0.0;
         //find the service in channel and calculate the weight
-        for(cIter = (pIter->second).begin(); cIter != pIter->second.end(); cIter++)
+        for(cIter = pIter->second.begin(); cIter != pIter->second.end(); cIter++)
         {
             //mandatory forward base = 10
             if(cIter->second->getFlag() == 0)
@@ -798,8 +822,8 @@ void AppTest1::updateChannelWeight(ServiceListType &serviceList,ChannelWeightTyp
             }else{ //optional forward and dont forward base =5
                 base = 5;
             }
-
-            weight += base*0.8 + 0.2*cIter->second->getPriority();
+            int priority = cIter->second->getPriority();
+            weight += base*0.8 + 0.2*priority;
         }
         channelWeight[pIter->first] = weight;
     }
@@ -932,6 +956,17 @@ void AppTest1::handleSelfMsg(cMessage* msg)
                 sendWSA(wsa);
             }
         }
+    }else if(msg == updateServiceEvent){
+        t_channel state = getActiveChannel();
+        double timeToNextChannel = timeToNextSwitch();
+        if(state == type_SCH){
+            double offset = serviceUpdateInterval + dblrand()*0.005 -0.03;
+            scheduleAt(simTime()+timeToNextChannel + offset,updateServiceEvent);
+        }else{
+            double offset = serviceUpdateInterval + dblrand()*0.005 + 0.02;
+            scheduleAt(simTime()+ timeToNextChannel + offset,updateServiceEvent);
+        }
+        updateServiceList(availableServiceList);
     }else if(msg == unicastEvent){
         int SrcProcId = unicastEvent->getSrcProcId();
         if(SrcProcId == myId)
@@ -940,24 +975,21 @@ void AppTest1::handleSelfMsg(cMessage* msg)
                 int psid = 90+myId;
                 int receiveId = -1;
                 if(myId == 0){
-                receiveId = 20;
+                    receiveId = 23;
                 }else if(myId == 1){
-                receiveId = 19;
+                    receiveId = 22;
                 }else if(myId == 2){
-                receiveId = 17;
+                    receiveId = 20;
                 }else if(myId == 3){
-                receiveId = 15;
+                    receiveId = 18;
                 }else if(myId == 4){
-                receiveId = 13;
+                    receiveId = 16;
                 }else if(myId == 5){
-                receiveId = 11;
+                    receiveId = 14;
                 }else if(myId ==6){
-                    if(positionRoute)
-                        receiveId = 9;
-                    else
-                        receiveId = 11;
+                    receiveId = 12;
                 }else if(myId== 7){
-                    receiveId = 9;
+                    receiveId = 10;
                 }
                 sendRepeatInfo(psid,receiveId);
                 sendCount++;
@@ -974,13 +1006,13 @@ void AppTest1::handleSelfMsg(cMessage* msg)
         }
 }
 
-void AppTest1::insertService(ServiceListType *list,cService *service)
+void AppTest1::insertService(ServiceListType &list,cService *service)
 {
     int psid = service->getPsid();
     int sch = service->getSch();
-    map<int,map<int,cService*> >::iterator it = list->find(sch);
+    map<int,map<int,cService*> >::iterator it = list.find(sch);
     /*find out if the channel is aready exist */
-    if(it != list->end())
+    if(it != list.end())
     {
         /*aready exist,insert the service in the related channnel*/
         it->second.insert(make_pair(psid,service));
@@ -989,31 +1021,33 @@ void AppTest1::insertService(ServiceListType *list,cService *service)
         /*not exist,then insert the channel and service*/
         psidService pService;
         pService.insert(make_pair(psid,service));
-        list->insert(make_pair(sch,pService));
+        list.insert(make_pair(sch,pService));
     }
 }
 
-void AppTest1::deleteServie(ServiceListType *list,int channel,int psid){
-    if(list->empty())
+void AppTest1::deleteServie(ServiceListType &list,int channel,int psid){
+    if(list.empty())
     {
         DBG << "##AppTEST1::ERROR:delete an empty servicelist!" << std::endl;
         return;
     }
 
-    map<int,map<int,cService*> >::iterator it = list->find(channel);
+    map<int,map<int,cService*> >::iterator it = list.find(channel);
     /*find the channel*/
-    if(it != list->end())
+    if(it != list.end())
     {
-        map<int,cService*>::iterator iter = it->second.find(psid);
-        if(iter != it->second.end())
+        map<int,cService*>::iterator iter = (it->second).find(psid);
+        if(iter != (it->second).end())
         {
             /*we must delete the content of the pointer direct and then delete the iterator */
-            delete (iter->second);
-            it->second.erase(iter);
+            cService *service = iter->second;
+            delete service;
+            //delete (iter->second);
+            (it->second).erase(iter);
             /*after delete the service,you need check the channel whether has other service,if not we need the channel*/
-            if(it->second.empty())
+            if((it->second).empty())
             {
-                list->erase(it);
+                list.erase(it);
             }
         }else
         {
@@ -1071,7 +1105,7 @@ void AppTest1::updateCarStatusList()
         {
             simtime_t startTime = iter->second->getStartTime();
             simtime_t currentTime = simTime();
-            if(currentTime - startTime >= 60.0)
+            if(currentTime - startTime >= positionUpdateInterval)
             {
                 delete (iter->second);//callback the memory
                 carMoveStatus.erase(iter);
@@ -1087,7 +1121,7 @@ void AppTest1::updateRouteTable(){
         while(iter != routeTable.end()){
             simtime_t startTime = iter->second->getTimestamp();
             simtime_t currentTime = simTime();
-            if(currentTime - startTime >= 60.0){
+            if(currentTime - startTime >= routeTableUpdateInterval ){
                 delete (iter->second);
                 routeTable.erase(iter);
             }
@@ -1096,6 +1130,28 @@ void AppTest1::updateRouteTable(){
     }
 }
 
+void AppTest1::updateServiceList(ServiceListType &list){
+    if(list.empty()){
+        return;
+    }
+    ServiceListType::iterator iter = list.begin();
+    for(;iter != list.end(); iter++){
+        map<int,cService*>::iterator iter2 = iter->second.begin();
+        for(;iter2 != iter->second.end(); iter2++){
+            simtime_t expireTime = iter2->second->getExpireTime();
+            simtime_t currentTime = simTime();
+            if(currentTime > expireTime){
+                cService *service = iter2->second;
+                delete service;
+                iter->second.erase(iter2);
+            }
+        }
+
+        if(iter->second.empty()){
+            list.erase(iter);
+        }
+    }
+}
 double AppTest1::distance(const Coord& a,const Coord& b){
     return a.distance(b);
 }
@@ -1210,7 +1266,9 @@ void AppTest1::unicastForwardMessage(WaveShortMessage* msg){
         cService *service = new cService(wsm->getPsid(),sch,wsm->getUserPriority(),wsm->getRecipientAddress(),wsm->getFlag(),hopLimit,wsm->getOriginalAddress(),wsm->getSerial());
         service->setTimestamp(wsm->getTimestamp());
         service->setPositions(wsm->getSenderPos());
-        insertService(&providerServiceList,service);
+        service->setExpire(0.20);
+        service->setExpireTime(simTime()+0.20);
+        insertService(providerServiceList,service);
         //channelNum = sch;
         double timeToNextChannel = timeToNextSwitch();
         double offSet = dblrand()*0.005;
@@ -1276,7 +1334,9 @@ void AppTest1::broadcastForwardMessage(WaveShortMessage* msg){
     cService *service = new cService(wsm->getPsid(),sch, wsm->getUserPriority(), wsm->getRecipientAddress(), wsm->getFlag(),hopLimit,wsm->getOriginalAddress(),wsm->getSerial());
     service->setTimestamp(wsm->getTimestamp());
     service->setPositions(wsm->getSenderPos());
-    insertService(&providerServiceList,service);
+    service->setExpire(0.20);
+    service->setExpireTime(simTime()+0.20);
+    insertService(providerServiceList,service);
 
     /*begin to broadcast the wsa packet*/
     double timeToNextChannel = timeToNextSwitch();
@@ -1384,7 +1444,9 @@ void AppTest1::sendRepeatInfo(int psid,int receiveId,int hopLimit){
     cService *service = new cService(psid,sch,priority,receiveId,0,hopLimit,myId,1);
     service->setTimestamp(simTime());
     service->setPositions(curPosition);
-    insertService(&providerServiceList,service);
+    service->setExpire(0.20);
+    service->setExpireTime(simTime()+0.20);
+    insertService(providerServiceList,service);
     sendWSAMessage("hello world");
 }
 AppTest1::AppTest1() {

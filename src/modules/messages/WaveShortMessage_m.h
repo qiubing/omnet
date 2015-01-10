@@ -51,6 +51,7 @@
  * 	simtime_t timestamp = 0;
  * 	Coord direction;
  * 	double speed = 0;
+ * 	double expireTime1 = 0;
  * 	
  * 	CarMove carlist[10] = 0;
  * 	RouteEntry routeTable[10] = 0;
@@ -81,6 +82,7 @@
  * 	int dst2 = -1;
  * 	int hopLimit2 = 1;
  * 	simtime_t timeStamp2 = 0;
+ * 	double expireTime2 = 0;
  * }
  * </pre>
  */
@@ -103,6 +105,7 @@ class WaveShortMessage : public ::cPacket
     simtime_t timestamp_var;
     Coord direction_var;
     double speed_var;
+    double expireTime1_var;
     CarMove carlist_var[10];
     RouteEntry routeTable_var[10];
     int hopLimit_var;
@@ -117,6 +120,7 @@ class WaveShortMessage : public ::cPacket
     int dst2_var;
     int hopLimit2_var;
     simtime_t timeStamp2_var;
+    double expireTime2_var;
 
   private:
     void copy(const WaveShortMessage& other);
@@ -169,6 +173,8 @@ class WaveShortMessage : public ::cPacket
     virtual void setDirection(const Coord& direction);
     virtual double getSpeed() const;
     virtual void setSpeed(double speed);
+    virtual double getExpireTime1() const;
+    virtual void setExpireTime1(double expireTime1);
     virtual unsigned int getCarlistArraySize() const;
     virtual CarMove& getCarlist(unsigned int k);
     virtual const CarMove& getCarlist(unsigned int k) const {return const_cast<WaveShortMessage*>(this)->getCarlist(k);}
@@ -201,6 +207,8 @@ class WaveShortMessage : public ::cPacket
     virtual void setHopLimit2(int hopLimit2);
     virtual simtime_t getTimeStamp2() const;
     virtual void setTimeStamp2(simtime_t timeStamp2);
+    virtual double getExpireTime2() const;
+    virtual void setExpireTime2(double expireTime2);
 };
 
 inline void doPacking(cCommBuffer *b, WaveShortMessage& obj) {obj.parsimPack(b);}

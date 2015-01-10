@@ -49,6 +49,10 @@ private:
     //timestamp use for update the service list
     simtime_t timestamp;
 
+    //the expire time to delete the available service
+    double expire;
+    simtime_t expireTime;
+
 public:
 
     //std::bitset<1024> bitvec;
@@ -135,6 +139,22 @@ public:
 
     void setPositions(const Coord& positions) {
         this->positions = positions;
+    }
+
+    double getExpire() const {
+        return expire;
+    }
+
+    void setExpire(double expire) {
+        this->expire = expire;
+    }
+
+    const simtime_t& getExpireTime() const {
+        return expireTime;
+    }
+
+    void setExpireTime(const simtime_t& expireTime) {
+        this->expireTime = expireTime;
     }
 };
 

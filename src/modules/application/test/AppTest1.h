@@ -74,10 +74,13 @@ public:
     //find the available service list and subscribe service list whether has common service, if has then return the service
     virtual cService* findCommonService(ServiceListType &aServiceList,psidService &sServiceList);
 
-    virtual void insertService(ServiceListType *list,cService *service);
+    //virtual void insertService(ServiceListType *list,cService *service);
+    virtual void insertService(ServiceListType &list,cService *service);
 
     /*delete the  servicelist channel pisd service */
-    virtual void deleteServie(ServiceListType *list,int channel,int psid);
+    //virtual void deleteServie(ServiceListType *list,int channel,int psid);
+    virtual void deleteServie(ServiceListType &list,int channel,int psid);
+
 
     /*update the car list,if the car not in the list then add it, the result is false represent the packet has received and drop it, if the result is true,represent the packet has not received */
     virtual bool  updateCarList(int id, Coord &curpos, simtime_t timestamp,int serial);
@@ -87,6 +90,9 @@ public:
 
     /*update the car route table information periodically the timestamp is the important key to decide how update the list*/
     virtual void updateRouteTable();
+
+    /*update the service list table by expire time*/
+    virtual void updateServiceList(ServiceListType &list);
 
     /*calculate the distance between  two coordiante */
     virtual double distance(const Coord& a,const Coord& b);
@@ -143,6 +149,9 @@ protected:
     /*broadcast message event*/
     cMessage *broadcastEvent;
 
+    /*update available service list event*/
+    cMessage *updateServiceEvent;
+
     bool sentWSM;
     bool sentWSA;
     bool isParking;
@@ -158,6 +167,11 @@ protected:
     int carId;//select different car to simulator different scene
     int sender;
     int hopCount;
+
+    double positionUpdateInterval;//position list update interval
+    double routeTableUpdateInterval;//route table update interval
+    double serviceUpdateInterval;//service list update interval
+
 
     /*car move status*/
     CarMove carMove;

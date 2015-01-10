@@ -261,6 +261,7 @@ void Mac1609_4::handleUpperMsg(cMessage* msg) {
 	{
 	    error("WaveMac only accepts wsm or wsa packets");
 	}
+
 	/*
 	mySCH = thisMsg->getChannelNumber();
 	ASSERT(mySCH);

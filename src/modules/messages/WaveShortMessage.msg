@@ -50,6 +50,7 @@ packet WaveShortMessage{
 	simtime_t timestamp = 0;
 	Coord direction;
 	double speed = 0;
+	double expireTime1 = 0;
 	
 	CarMove carlist[10] = 0;
 	RouteEntry routeTable[10] = 0;
@@ -80,4 +81,5 @@ packet WaveShortMessage{
 	int dst2 = -1;
 	int hopLimit2 = 1;
 	simtime_t timeStamp2 = 0;
+	double expireTime2 = 0;
 }
