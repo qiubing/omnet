@@ -146,7 +146,7 @@ public:
 	{
     	direction = target - startPos;
 
-    	assert( !FWMath::close(direction.length(), 0.0) );
+    	//assert( !FWMath::close(direction.length(), 0.0) );
     	direction /= direction.length();
     }
 

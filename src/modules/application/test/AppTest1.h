@@ -113,6 +113,9 @@ public:
     /*select next forward channel and build the service */
     virtual int selectNextChannel();
 
+    /*Randomly selected a service channel*/
+    virtual int randomSelectChannel();
+
     /*get the current channel state*/
     t_channel getActiveChannel();
 
@@ -152,6 +155,9 @@ protected:
     /*update available service list event*/
     cMessage *updateServiceEvent;
 
+    /*send WSA event repeatedly */
+    cMessage *repeatSendWSAEvent;
+
     bool sentWSM;
     bool sentWSA;
     bool isParking;
@@ -168,9 +174,11 @@ protected:
     int sender;
     int hopCount;
 
+    double WSAInterval;//send WSA message interval 0.1s as a unit
     double positionUpdateInterval;//position list update interval
     double routeTableUpdateInterval;//route table update interval
     double serviceUpdateInterval;//service list update interval
+    double sendUnicastWSMInterval;//repeat send wsm message interval
 
 
     /*car move status*/
@@ -202,8 +210,6 @@ protected:
     /*send position flag,flag 0 represent send first 10 car position information and flag 1 represent send last 10 car position information*/
     bool posFlag;
 
-    /*repeat send packets time interval*/
-    double sendInterval;
 
     //stats
     long statsReceivedUnicast;//received unicast packets
@@ -218,6 +224,7 @@ protected:
     void unicastWSMMessage(WaveShortMessage* msg);
     void broadcastWSMMessage(WaveShortMessage* msg);
     void sendWSAMessage(std::string blockedRoadId);
+    void sendWSAMessage(std::string blockedRoadId,cService *service,int flag);//flag decide send in first 25ms or second 25ms send message
     virtual void unicastForwardMessage(WaveShortMessage* msg);
     virtual void broadcastForwardMessage(WaveShortMessage* msg);
     virtual void handlePositionUpdate(cObject* obj);

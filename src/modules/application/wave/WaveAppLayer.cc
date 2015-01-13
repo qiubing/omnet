@@ -45,7 +45,7 @@ void WaveAppLayer::initialize(int stage){
     dataOnSch = par("dataOnSch").boolValue();
     dataPriority = par("dataPriority").longValue();
 
-    sendWSAEvt = new cMessage("WSA evt", SEND_WSA_EVENT);
+    //sendWSAEvt = new cMessage("WSA evt", SEND_WSA_EVENT);
     //simulate asynchronous channel access
     //double offSet = dblrand() * (par("WSAInterval").doubleValue()/2);
     //offSet = offSet + floor(offSet/0.050)*0.050;
@@ -240,6 +240,7 @@ void WaveAppLayer::handleLowerMsg(cMessage* msg) {
 }
 
 void WaveAppLayer::handleSelfMsg(cMessage* msg) {
+    /*
     switch (msg->getKind()) {
             case SEND_WSA_EVENT: {
                 WaveShortMessage *wsa = prepareBaseMSG("wsa",WSALengthBits,WSAPriority,178,0.0,Coord::ZERO,simTime());
@@ -255,6 +256,7 @@ void WaveAppLayer::handleSelfMsg(cMessage* msg) {
                 break;
             }
         }
+     */
 }
 
 void WaveAppLayer::sendWSM(WaveShortMessage* wsm) {
@@ -262,14 +264,15 @@ void WaveAppLayer::sendWSM(WaveShortMessage* wsm) {
 }
 
 void WaveAppLayer::finish(){
+   /*
     if (sendWSAEvt->isScheduled()) {
             cancelAndDelete(sendWSAEvt);
         }
         else {
             delete sendWSAEvt;
         }
-
-        findHost()->unsubscribe(mobilityStateChangedSignal, this);
+    */
+    findHost()->unsubscribe(mobilityStateChangedSignal, this);
 }
 
 
