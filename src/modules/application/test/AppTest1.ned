@@ -41,4 +41,6 @@ simple AppTest1 extends WaveAppLayer{
         volatile double routeTableUpdateInterval = default(60s) @unit(s);//route table update interval
         volatile double serviceUpdateInterval = default(1s) @unit(s);//service list update interval
         volatile double sendUnicastWSMInterval = default(1s) @unit(s);//repeat send unicast wsm message 
+        volatile double sendPositionTableInterval = default(5s) @unit(s);//repeat send position information interval
+        volatile double sendRouteTableInterval = default(5s) @unit(s);//repeat send route table information interval
 }

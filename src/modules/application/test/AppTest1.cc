@@ -54,6 +54,8 @@ void AppTest1::initialize(int stage){
         serviceUpdateInterval = par("serviceUpdateInterval").doubleValue();
         WSAInterval = par("WSAInterval").doubleValue();
         sendUnicastWSMInterval = par("sendUnicastWSMInterval").doubleValue();
+        sendPositionTableInterval = par("sendPositionTableInterval").doubleValue();
+        sendRouteTableInterval = par("sendRouteTableInterval").doubleValue();
 
         /*get the car move status*/
         carMove.setCarId(myId);
@@ -90,107 +92,36 @@ void AppTest1::initialize(int stage){
             double startTime = offsetTime;
             switch (carId) {
                 case 0:
-                    startTime += 160.0;
-                    break;
-                case 1:
-                    startTime += 150.0;
-                    break;
-                case 2:
                     startTime += 140.0;
                     break;
-                case 3:
+                case 1:
                     startTime += 130.0;
                     break;
-                case 4:
+                case 2:
                     startTime += 120.0;
                     break;
-                case 5:
+                case 3:
                     startTime += 110.0;
                     break;
-                case 6:
+                case 4:
                     startTime += 100.0;
                     break;
-                case 7:
+                case 5:
                     startTime += 90.0;
                     break;
-                default:
+                case 6:
                     startTime += 80.0;
+                    break;
+                case 7:
+                    startTime += 70.0;
+                    break;
+                default:
+                    startTime += 60.0;
                     break;
             }
             scheduleAt(startTime,unicastEvent);
         }
 
-        /*
-        if(myId == 0)
-        {
-            unicastEvent = new cMessage("time Event",SEND_UNICAST_EVENT);
-            unicastEvent->setSrcProcId(myId);
-            double offset0 = dblrand()*0.10;
-            scheduleAt(130.00 + offset0 + individualOffset,unicastEvent);
-        }
-
-        if(myId == 1)
-        {
-            unicastEvent = new cMessage("time Event",SEND_UNICAST_EVENT);
-            unicastEvent->setSrcProcId(myId);
-            double offset1 = 0.10 + dblrand()*0.10;
-            scheduleAt(120.00 + offset1 + individualOffset,unicastEvent);
-        }
-
-
-
-        if(myId == 2)
-        {
-            unicastEvent = new cMessage("time Event",SEND_UNICAST_EVENT);
-            unicastEvent->setSrcProcId(myId);
-            double offset2 = 0.20 + dblrand()*0.10;
-            scheduleAt(110.00 + offset2 + individualOffset,unicastEvent);
-         }
-
-
-
-        if(myId == 3)
-         {
-            unicastEvent = new cMessage("time Event",SEND_UNICAST_EVENT);
-            unicastEvent->setSrcProcId(myId);
-            double offset3 = 0.30 + dblrand()*0.10;
-            scheduleAt(100.00 + offset3 + individualOffset,unicastEvent);
-         }
-
-
-        if(myId == 4)
-
-        {
-            unicastEvent = new cMessage("time Event",SEND_UNICAST_EVENT);
-            unicastEvent->setSrcProcId(myId);
-            double offset4 = 0.40 + dblrand()*0.10;
-            scheduleAt(80.00 + offset4 + individualOffset,unicastEvent);
-        }
-
-
-        if(myId == 5)
-        {
-            unicastEvent = new cMessage("time Event",SEND_UNICAST_EVENT);
-            unicastEvent->setSrcProcId(myId);
-            double offset5 = 0.50 + dblrand()*0.10;
-            scheduleAt(70.00 + offset5 + individualOffset,unicastEvent);
-        }
-
-
-        if(myId == 6){
-            unicastEvent = new cMessage("time Event",SEND_UNICAST_EVENT);
-            unicastEvent->setSrcProcId(myId);
-            double offset6 = 0.60 + dblrand()*0.10;
-            scheduleAt(60.00 + offset6 + individualOffset,unicastEvent);
-        }
-
-        if(myId == 7){
-            unicastEvent = new cMessage("time Event",SEND_UNICAST_EVENT);
-            unicastEvent->setSrcProcId(myId);
-            double offset7 = 0.70 + dblrand()*0.10;
-            scheduleAt(50.00 + offset7 + individualOffset,unicastEvent);
-        }
-        */
 
         /*the carId 10 send the broadcast packets at the 120s*/
         /*
@@ -202,73 +133,7 @@ void AppTest1::initialize(int stage){
         */
 
         DBG<<"##WaveAppLayer: the offSet time is: "<< offSet << "and the individualOffset time is: "<< individualOffset << std::endl;
-
         //initialize the provider service list
-        /*
-        if(myId%4 == 0)
-        {
-            providerServiceList.clear();
-            int psid = intuniform(1,10);
-            int priority = intuniform(1,6);
-            cService* service = new cService(psid,Channels::SCH1,priority,-1,0,0,myId,1);
-            service->setTimestamp(simTime());
-            service->setPositions(curPosition);
-            service->setExpire(0.20);//expire time
-            service->setExpireTime(simTime()+0.20);
-            psidService pService;
-            pService.insert(make_pair(psid,service));
-            providerServiceList.insert(make_pair(Channels::SCH1,pService));
-
-            DBG<<"node["<<myId<<"] provide " << psid << "service at the channel : "<< service->getSch() << "with priority: " << priority <<
-                    " and flag :" << service->getFlag() << "at the time:" << service->getTimestamp() << std::endl;
-        }else if(myId%4 == 1){
-            providerServiceList.clear();
-            int psid = intuniform(11,20);
-            int priority = intuniform(1,6);
-            cService* service = new cService(psid,Channels::SCH2,priority,-1,1,0,myId,1);
-            service->setTimestamp(simTime());
-            service->setPositions(curPosition);
-            service->setExpire(0.20);
-            service->setExpireTime(simTime()+0.20);
-            psidService pService;
-            pService.insert(make_pair(psid,service));
-            providerServiceList.insert(make_pair(Channels::SCH2,pService));
-            DBG<<"node["<<myId<<"] provide " << psid << "service at the channel : "<< service->getSch() << "with priority: " << priority <<
-            " and flag :" << service->getFlag() << "at the time:" << service->getTimestamp() << std::endl;
-
-        }else if(myId%4 == 2)
-        {
-            providerServiceList.clear();
-            int psid = intuniform(21,30);
-            int priority = intuniform(1,6);
-            cService* service = new cService(psid,Channels::SCH3,priority,-1,2,0,myId,1);
-            service->setTimestamp(simTime());
-            service->setPositions(curPosition);
-            service->setExpire(0.20);
-            service->setExpireTime(simTime()+0.20);
-            psidService pService;
-            pService.insert(make_pair(psid,service));
-            providerServiceList.insert(make_pair(Channels::SCH3,pService));
-            DBG<<"node["<<myId<<"] provide " << psid << "service at the channel : "<< service->getSch() << "with priority: " << priority <<
-            " and flag :" << service->getFlag() << "at the time:" << service->getTimestamp() << std::endl;
-
-        }else{
-            providerServiceList.clear();
-            int psid = intuniform(31,40);
-            int priority = intuniform(1,6);
-            cService* service = new cService(psid,Channels::SCH4,priority,-1,1,0,myId,1);
-            service->setTimestamp(simTime());
-            service->setPositions(curPosition);
-            service->setExpire(0.20);
-            service->setExpireTime(simTime()+0.20);
-            psidService pService;
-            pService.insert(make_pair(psid,service));
-            providerServiceList.insert(make_pair(Channels::SCH4,pService));
-            DBG<<"node["<<myId<<"] provide " << psid << "service at the channel : "<< service->getSch() << "with priority: " << priority <<
-            " and flag :" << service->getFlag() << "at the time:" << service->getTimestamp() << std::endl;
-
-        }
-        */
 
         availableServiceList.clear();
         subscribeServiceList.clear();
@@ -282,27 +147,6 @@ void AppTest1::initialize(int stage){
             isProvider = false;
         }
 
-        /*
-        if(isProvider && !sentWSA )
-        {
-            findHost()->getDisplayString().updateWith("r=16,red");
-            //channelNum = allocateChannel(providerServiceList);
-            if(nextWSAEvent->isScheduled())
-            {
-                cancelEvent(nextWSAEvent);
-            }
-            scheduleAt(simTime() + 2.0 + offSet,nextWSAEvent);
-            double off = dblrand()*.005 + intuniform(0,9)*0.10;
-            scheduleAt(simTime() + 3.01 + off,repeatSendWSAEvent);
-            isProvider = false;
-        }
-
-        //begin send wsm packet at the SCH time
-        if(!sentWSM)
-        {
-            scheduleAt(simTime()+ 2.0 + SWITCHING_INTERVAL_11P + offSet,nextWSMEvent);
-        }
-        */
 
         /*the update interval of the position or route table information is 5s */
         t_channel state = getActiveChannel();
@@ -444,12 +288,17 @@ void AppTest1::onWSA(WaveShortMessage* msg){
                     int distance2 = wsm->getRouteTable(i).getDistance() + 1;//distance add by 1
                     int nextCarId1 = it->second->getNextCarId();
                     int nextCarId2 = wsm->getSenderAddress();
-                    if(nextCarId1 != nextCarId2){
+                    if(nextCarId1 != nextCarId2){//next car id is different
                         //select the small distance one
                         if(distance1 <= distance2){
                             continue;
+                        }else{
+                            RouteEntry *entry2 = it->second;
+                            entry2->setDistance(distance2);
+                            entry2->setNextCarId(nextCarId2);
+                            entry2->setTimestamp(wsm->getArrivalTime());
                         }
-                    }else{
+                    }else{//next car id is same
                         RouteEntry *entry1 = it->second;
                         entry1->setDistance(distance2);
                         entry1->setNextCarId(nextCarId2);
@@ -589,14 +438,6 @@ void AppTest1::sendWSMMessage(std::string blockedRoadId){
         int sch = service->getSch();
         ASSERT(sch >= 174);
         ASSERT(sch <= 182);
-        /*
-        if(sch < 174 || sch > 182){
-            DBG<<"the channel number is wrong!"<<std::endl;
-            broadcastServiceList.pop_front();
-            deleteServie(providerServiceList,service->getSch(),service->getPsid());
-            return;
-        }
-        */
         WaveShortMessage *wsm = prepareBaseMSG("wsm",dataLengthBits,dataPriority,service->getSch(),carMove.getSpeed(),carMove.getDirection(),service->getTimestamp());
         wsm = prepareWSM(wsm,service->getPsid(),service->getHopLimit(),service->getFlag(),service->getDst(),service->getOriginalSender(),service->getPriority());
         wsm->setExpireTime1(service->getExpire());
@@ -926,7 +767,7 @@ void AppTest1::updateChannelWeight(ServiceListType &serviceList,ChannelWeightTyp
             //mandatory forward base = 10
             if(cIter->second->getFlag() == 0)
             {
-                base = 10;
+                base = 20;
             }else{ //optional forward and dont forward base =5
                 base = 5;
             }
@@ -987,7 +828,7 @@ void AppTest1::handleSelfMsg(cMessage* msg)
     {
         sendWSMMessage(traci->getRoadId());
     }else if(msg == updatePOSEvent){
-        scheduleAt(simTime() + 5.0,updatePOSEvent);
+        scheduleAt(simTime() + sendPositionTableInterval,updatePOSEvent);
         updateCarStatusList();
         WaveShortMessage *wsa = prepareBaseMSG("wsa",dataLengthBits,dataPriority,178,carMove.getSpeed(),carMove.getDirection(),simTime());
         wsa = prepareWSA(wsa,0,0,0,0,-1);
@@ -1026,7 +867,7 @@ void AppTest1::handleSelfMsg(cMessage* msg)
             }
         }
     }else if(msg == updateRouteTableEvent){
-        scheduleAt(simTime() + 5.0,updateRouteTableEvent);
+        scheduleAt(simTime() + sendRouteTableInterval,updateRouteTableEvent);
         updateRouteTable();
         WaveShortMessage *wsa = prepareBaseMSG("wsa",dataLengthBits,dataPriority,178,carMove.getSpeed(),carMove.getDirection(),simTime());
         wsa = prepareWSA(wsa,0,0,0,0,-1);
@@ -1091,6 +932,34 @@ void AppTest1::handleSelfMsg(cMessage* msg)
                 scheduleAt(simTime()+ sendUnicastWSMInterval,unicastEvent);
                 int psid = 90+myId;
                 int receiveId = -1;
+               /*
+                switch (carId) {
+                    case 0:
+                        receiveId = 23;
+                        break;
+                    case 1:
+                        receiveId = 21;
+                        break;
+                    case 2:
+                        receiveId = 18;
+                        break;
+                    case 3:
+                        receiveId = 15;
+                        break;
+                    case 4:
+                        receiveId = 12;
+                        break;
+                    case 5:
+                        receiveId = 9;
+                        break;
+                    case 6:
+                        receiveId = 6;
+                        break;
+                    case 7:
+                        receiveId = 3;
+                        break;
+                }*/
+
                 if(myId == 0){
                     receiveId = 23;
                 }else if(myId == 1){

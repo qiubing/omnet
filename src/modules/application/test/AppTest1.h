@@ -179,6 +179,8 @@ protected:
     double routeTableUpdateInterval;//route table update interval
     double serviceUpdateInterval;//service list update interval
     double sendUnicastWSMInterval;//repeat send wsm message interval
+    double sendPositionTableInterval;//repeat send position information interval
+    double sendRouteTableInterval;//repeat send route table information interval
 
 
     /*car move status*/
