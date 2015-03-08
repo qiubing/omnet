@@ -47,6 +47,7 @@ packet WaveShortMessage{
 	int recipientAddress = -1;
 	int serial = 0;
 	Coord senderPos;
+	Coord destPos;//use for position route forward
 	simtime_t timestamp = 0;
 	Coord direction;
 	double speed = 0;

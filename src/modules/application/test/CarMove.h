@@ -20,6 +20,8 @@
 class CarMove: public Move {
 private:
     int carId;
+    double Lifetime;//life time of the route entry
+    int flag;//the neighbor route entry is good or bad,good is 0,bad is 1
 public:
     //CarMove() {
         // TODO Auto-generated constructor stub
@@ -38,6 +40,22 @@ public:
 
     void setCarId(int carId) {
         this->carId = carId;
+    }
+
+    int getFlag() const {
+        return flag;
+    }
+
+    void setFlag(int flag) {
+        this->flag = flag;
+    }
+
+    double getLifetime() const {
+        return Lifetime;
+    }
+
+    void setLifetime(double lifetime) {
+        Lifetime = lifetime;
     }
 };
 

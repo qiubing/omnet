@@ -32,12 +32,14 @@
 #include <utility>
 #include <Consts80211p.h>
 #include <WaveAppToMac1609_4Interface.h>
+#include <cmath>
 
 
 using Veins::TraCIMobility;
 using Veins::AnnotationManager;
 using std::map;
 using std::multimap;
+using namespace std;
 
 typedef map<int,cService*> psidService;
 typedef map<int,cService*>::value_type valType;
@@ -88,6 +90,9 @@ public:
     /*update the car position information and remove the car information that timestamp more than 5s*/
     virtual void updateCarStatusList();
 
+    /*update the car neighbor list with WSAInterval and lifetime*/
+    virtual void updateCarNeighborList();
+
     /*update the car route table information periodically the timestamp is the important key to decide how update the list*/
     virtual void updateRouteTable();
 
@@ -99,13 +104,16 @@ public:
 
     /*judge the two direction is the same direction*/
 
-    virtual bool isSameDirection(const Coord& dir1,const Coord& dir2);
+    virtual double directionAngle(const Coord& dir1,const Coord& dir2);
 
     /*return the radians of the x value,the range is from -pi to pi*/
     virtual double radians(const Coord& direction);
 
     /*select next forward car for the unicast,the distance must leave the destination nearest and in the same direction beside in the communication range*/
     virtual int selectNextCar(int dest);
+
+    /*select next forward car for the unicast with the neighbor car list,which is with the position assist*/
+    virtual int selectNextCarWithNeighborCarList(int destId,Coord &destPos);
 
     /*select next forward car for the unicast with the route table,which is update without car position information*/
     virtual int selectNextCarWithRouteTable(int dest);
@@ -127,6 +135,9 @@ public:
 
     /*prepare repeat information to send*/
     virtual void sendRepeatInfo(int psid, int receivedId,int hopLimit=9);
+
+    /*calculate the lifetime of two car*/
+    double calculateLifetime(CarMove &carA,CarMove &carB);
 
 protected:
     TraCIMobility* traci;
@@ -157,6 +168,9 @@ protected:
 
     /*send WSA event repeatedly */
     cMessage *repeatSendWSAEvent;
+
+    /*update neighbor car list event*/
+    cMessage *updateCarNeighborListEvent;
 
     bool sentWSM;
     bool sentWSA;
@@ -203,6 +217,9 @@ protected:
     //every node maintain a table about others moving status
     map<int,CarMove*> carMoveStatus;
 
+    //Neighbor list about the move car status
+    map<int,CarMove*> neighborCarList;
+
     //every node maintain a route table about to other moving nodes without position information
     map<int,RouteEntry*> routeTable;
 
@@ -211,6 +228,9 @@ protected:
 
     /*send position flag,flag 0 represent send first 10 car position information and flag 1 represent send last 10 car position information*/
     bool posFlag;
+
+    /*route entry sequence*/
+    int routeSeq;
 
 
     //stats

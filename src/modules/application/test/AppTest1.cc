@@ -69,6 +69,7 @@ void AppTest1::initialize(int stage){
         updateRouteTableEvent = new cMessage("next update route information Event");
         updateServiceEvent = new cMessage("next update available service Event");
         repeatSendWSAEvent = new cMessage("repeat send wsa message Event");
+        updateCarNeighborListEvent = new cMessage("next update car neighbor list");
 
         //simulate asynchronous channel access
         double maxOffset = par("maxOffset").doubleValue();
@@ -76,6 +77,9 @@ void AppTest1::initialize(int stage){
         individualOffset = dblrand() * maxOffset;
         /*statistics the send times*/
         sendCount = 0;
+
+        /*route entry sequence*/
+        routeSeq = 0;
 
         //stats
         statsReceivedBroadcasts = 0;
@@ -92,28 +96,83 @@ void AppTest1::initialize(int stage){
             double startTime = offsetTime;
             switch (carId) {
                 case 0:
-                    startTime += 140.0;
+
+                    //startTime += 212.0;
+                    startTime += 141.0;
+                    //startTime += 116.0;
+                    //startTime += 90.0;
+                    //startTime += 132.0;
+                    //startTime += 148.0;
+                    //startTime += 140.0;
                     break;
                 case 1:
+
+                    //startTime += 196.0;
                     startTime += 130.0;
+                    //startTime += 108.0;
+                    //startTime += 88.0;
+                    //startTime += 125.0;
+                    //startTime += 136.0;
+                    //startTime += 128.0;
                     break;
                 case 2:
+
+                    //startTime += 180.0;
                     startTime += 120.0;
+                    //startTime += 100.0;
+                    //startTime += 80.0;
+                    //startTime += 118.0;
+                    //startTime += 124.0;
+                    //startTime += 116.0;
                     break;
                 case 3:
+
+                    //startTime += 164.0;
                     startTime += 110.0;
+                    //startTime += 92.0;
+                    //startTime += 76.0;
+                    //startTime += 111.0;
+                    //startTime += 112.0;
+                    //startTime += 104.0;
                     break;
                 case 4:
+                    //startTime += 148.0;
                     startTime += 100.0;
+                    //startTime += 84.0;
+                    //startTime += 68.0;
+                    //startTime += 104.0;
+                    //startTime += 100.0;
+                    //startTime += 96.0;
                     break;
                 case 5:
+
+                    //startTime += 135.0;
                     startTime += 90.0;
+                    //startTime += 76.0;
+                    //startTime += 64.0;
+                    //startTime += 97.0;
+                    //startTime += 88.0;
+                    //startTime += 84.0;
                     break;
                 case 6:
+
+                    //startTime += 116.0;
                     startTime += 80.0;
+                    //startTime += 68.0;
+                    //startTime += 56.0;
+                    //startTime += 90.0;
+                    //startTime += 76.0;
+                    //startTime += 72.0;
                     break;
                 case 7:
-                    startTime += 70.0;
+
+                    //startTime += 100.0;//speed 20km/h 1/5s
+                    startTime += 70.0; //speed 30km/h 1/5s
+                    //startTime += 60.0;//speed 40km/h  1/5s
+                    //startTime += 50.0;//speed 50km/h  1/5s
+                    //startTime += 83.0;//speed 30km/h  1/7s
+                    //startTime += 64.0;//speed 30km/h  1/4s
+                    //startTime += 58.0;//speed 33.6km/h  1/3s
                     break;
                 default:
                     startTime += 60.0;
@@ -140,6 +199,8 @@ void AppTest1::initialize(int stage){
         carList.clear();
         carMoveStatus.clear();
         routeTable.clear();
+        neighborCarList.clear();
+
 
         if(isProvider && !sentWSA){
             findHost()->getDisplayString().updateWith("r=16,red");
@@ -155,6 +216,7 @@ void AppTest1::initialize(int stage){
         double offset2 = 0.01 + dblrand()*0.015;
         double randomOffset = timeToNextChannel + 5.0 + intuniform(0,9)*0.10;
         double randomOffset1 = timeToNextChannel + 3.0 + intuniform(0,9)*0.10;
+        double randomOffset2 = timeToNextChannel + 4.0 + intuniform(0,9)*0.10;
         if(state == type_SCH){
             randomOffset += offset1;
             randomOffset1 -= offset2;
@@ -169,6 +231,7 @@ void AppTest1::initialize(int stage){
             scheduleAt(simTime() + randomOffset,updateRouteTableEvent);
         }
         scheduleAt(simTime() + randomOffset1,updateServiceEvent);
+        scheduleAt(simTime() + randomOffset2,updateCarNeighborListEvent);
     }
 }
 void AppTest1::finish(){
@@ -234,8 +297,13 @@ void AppTest1::onWSA(WaveShortMessage* msg){
         carstatus->setDirectionByVector(wsm->getDirection());
         carstatus->setSpeed(wsm->getSpeed());
         carstatus->setStart(wsm->getSenderPos(),wsm->getTimestamp());
+        double lifetime = calculateLifetime(carMove,*carstatus);
+        carstatus->setLifetime(lifetime);//set lifetime
+        carstatus->setFlag(0);//good flag
         carMoveStatus[wsm->getSenderAddress()] = carstatus;
-        for(int i = 0; i < 10;i++)
+        neighborCarList[wsm->getSenderAddress()] = carstatus;//save the neighbor car move status
+
+        for(int i = 0; i < 10;i++)//20
         {
             int carId = wsm->getCarlist(i).getCarId();
             if(carId != -1)
@@ -269,9 +337,11 @@ void AppTest1::onWSA(WaveShortMessage* msg){
     }else{
         /*route without car position information*/
         RouteEntry *entry = new RouteEntry(wsm->getSenderAddress());
-        entry->setNextCarId(-1);//my neighbors
+        //entry->setNextCarId(-1);//my neighbors
+        entry->setNextCarId(wsm->getSenderAddress());
         entry->setDistance(1);
         entry->setTimestamp(wsm->getArrivalTime());
+        entry->setSeq(wsm->getSerial());
         routeTable[wsm->getSenderAddress()] = entry;
         for(int i = 0; i < 10;i++)
         {
@@ -284,32 +354,42 @@ void AppTest1::onWSA(WaveShortMessage* msg){
                 }
                 map<int,RouteEntry*>::iterator it = routeTable.find(carId);
                 if(it != routeTable.end()){
+                    /*compare the route sequence first*/
+                    int oldSeq = it->second->getSeq();
+                    int newSeq = wsm->getRouteTable(i).getSeq();
+                    if(newSeq < oldSeq){
+                        /*ignore this route entry update*/
+                        continue;
+                    }
                     int distance1 = it->second->getDistance();
                     int distance2 = wsm->getRouteTable(i).getDistance() + 1;//distance add by 1
                     int nextCarId1 = it->second->getNextCarId();
                     int nextCarId2 = wsm->getSenderAddress();
                     if(nextCarId1 != nextCarId2){//next car id is different
                         //select the small distance one
-                        if(distance1 <= distance2){
+                        if(distance1 < distance2){
                             continue;
                         }else{
                             RouteEntry *entry2 = it->second;
                             entry2->setDistance(distance2);
                             entry2->setNextCarId(nextCarId2);
+                            entry2->setSeq(newSeq);
                             entry2->setTimestamp(wsm->getArrivalTime());
                         }
-                    }else{//next car id is same
+                    }else{//next car id is same,select the new route entry
                         RouteEntry *entry1 = it->second;
                         entry1->setDistance(distance2);
                         entry1->setNextCarId(nextCarId2);
+                        entry1->setSeq(newSeq);
                         entry1->setTimestamp(wsm->getArrivalTime());
                     }
-                }else{
+                }else{//add new route entry
                     RouteEntry &temp = wsm->getRouteTable(i);
                     RouteEntry *entry2 = new RouteEntry(carId);
                     entry2->setDistance(temp.getDistance()+1);
                     entry2->setNextCarId(wsm->getSenderAddress());
                     entry2->setTimestamp(wsm->getArrivalTime());
+                    entry2->setSeq(temp.getSeq());
                     routeTable[carId] = entry2;
                 }
 
@@ -318,7 +398,6 @@ void AppTest1::onWSA(WaveShortMessage* msg){
             }
         }//for
     }
-
 
     /*2. then choose which service to use*/
     cService *service3 = NULL;
@@ -406,8 +485,7 @@ void AppTest1::sendWSMMessage(std::string blockedRoadId){
     t_channel state = getActiveChannel();
     double timeToNextChannel = timeToNextSwitch();
     double offSet = dblrand()*0.005;
-    if(state == type_CCH)
-    {
+    if(state == type_CCH){
         /*if the current channel is CCH,then we send the wsm message in the next SCH time solt*/
         if(nextWSMEvent->isScheduled())
         {
@@ -532,6 +610,8 @@ void AppTest1::sendWSAMessage(std::string blockedRoadId)
                     wsa = prepareWSA(wsa,service->getPsid(),service->getHopLimit(),service->getFlag(),service->getPriority(),service->getDst());
                     wsa->setExpireTime1(service->getExpire());
                     wsa->setWsmData(blockedRoadId.c_str());
+                    wsa->setSerial(routeSeq);//set the send route entry sequence
+                    routeSeq++;
                     /*record the broadcasted service */
                     broadcastServiceList.push_back(service);
 
@@ -550,14 +630,14 @@ void AppTest1::sendWSAMessage(std::string blockedRoadId)
                         /*fix me: we should send the position information randomly*/
                         if(!posFlag){//first 10 car position information
                             map<int,CarMove*>::iterator iter2 = carMoveStatus.begin();
-                            for(int i = 0;(iter2 != carMoveStatus.end())&&(i<10);iter2++){
+                            for(int i = 0;(iter2 != carMoveStatus.end())&&(i<10);iter2++){//20
                                 CarMove *carmove = iter2->second;
                                 wsa->setCarlist(i,*carmove);
                                 i++;
                             }
                         }else{//last 10 car position information
                             map<int,CarMove*>::reverse_iterator iter3 = carMoveStatus.rbegin();
-                            for(int i = 0;(iter3 != carMoveStatus.rend())&&(i<10);iter3++){
+                            for(int i = 0;(iter3 != carMoveStatus.rend())&&(i<10);iter3++){//20
                                 CarMove *carmove = iter3->second;
                                 wsa->setCarlist(i,*carmove);
                                 i++;
@@ -611,20 +691,22 @@ void AppTest1::sendWSAMessage(std::string blockedRoadId,cService *service, int f
     wsa = prepareWSA(wsa,service->getPsid(),service->getHopLimit(),service->getFlag(),service->getPriority(),service->getDst());
     wsa->setExpireTime1(service->getExpire());
     wsa->setWsmData(blockedRoadId.c_str());
+    wsa->setSerial(routeSeq);
+    routeSeq++;
     broadcastServiceList.push_back(service);
     if(positionRoute){
         /*send other nodes position information, no more than 10*/
         /*fix me: we should send the position information randomly*/
         if(!posFlag){//first 10 car position information
             map<int,CarMove*>::iterator iter2 = carMoveStatus.begin();
-            for(int i = 0;(iter2 != carMoveStatus.end())&&(i<10);iter2++){
+            for(int i = 0;(iter2 != carMoveStatus.end())&&(i<10);iter2++){//20
                 CarMove *carmove = iter2->second;
                 wsa->setCarlist(i,*carmove);
                 i++;
             }
         }else{//last 10 car position information
             map<int,CarMove*>::reverse_iterator iter3 = carMoveStatus.rbegin();
-            for(int i = 0;(iter3 != carMoveStatus.rend())&&(i<10);iter3++){
+            for(int i = 0;(iter3 != carMoveStatus.rend())&&(i<10);iter3++){//20
                 CarMove *carmove = iter3->second;
                 wsa->setCarlist(i,*carmove);
                 i++;
@@ -767,7 +849,7 @@ void AppTest1::updateChannelWeight(ServiceListType &serviceList,ChannelWeightTyp
             //mandatory forward base = 10
             if(cIter->second->getFlag() == 0)
             {
-                base = 20;
+                base = 10;
             }else{ //optional forward and dont forward base =5
                 base = 5;
             }
@@ -821,15 +903,22 @@ cService* AppTest1::findCommonService(ServiceListType &aServiceList,psidService 
 }
 void AppTest1::handleSelfMsg(cMessage* msg)
 {
-    if(msg == nextWSAEvent)
-    {
+    if(msg == nextWSAEvent){
         sendWSAMessage(traci->getRoadId());
-    }else if(msg == nextWSMEvent)
-    {
+    }else if(msg == nextWSMEvent){
         sendWSMMessage(traci->getRoadId());
     }else if(msg == updatePOSEvent){
         scheduleAt(simTime() + sendPositionTableInterval,updatePOSEvent);
         updateCarStatusList();
+        /*debug*/
+//
+//        if(myId == 4){
+//            int a =10;
+//            int b= 100;
+//            int c= a+b;
+//            c = c + a;
+//        }
+
         WaveShortMessage *wsa = prepareBaseMSG("wsa",dataLengthBits,dataPriority,178,carMove.getSpeed(),carMove.getDirection(),simTime());
         wsa = prepareWSA(wsa,0,0,0,0,-1);
         wsa->setWsmData("update position information");
@@ -837,14 +926,14 @@ void AppTest1::handleSelfMsg(cMessage* msg)
         /*send other car position information*/
         if(!posFlag){//first 10 car position information
             map<int,CarMove*>::iterator iter2 = carMoveStatus.begin();
-            for(int i = 0;(iter2 != carMoveStatus.end())&&(i<10);iter2++){
+            for(int i = 0;(iter2 != carMoveStatus.end())&&(i<10);iter2++){//20
             CarMove *carmove = iter2->second;
             wsa->setCarlist(i,*carmove);
             i++;
             }
         }else{//last 10 car position information
             map<int,CarMove*>::reverse_iterator iter3 = carMoveStatus.rbegin();
-            for(int i = 0;(iter3 != carMoveStatus.rend())&&(i<10);iter3++){
+            for(int i = 0;(iter3 != carMoveStatus.rend())&&(i<10);iter3++){//20
             CarMove *carmove = iter3->second;
             wsa->setCarlist(i,*carmove);
             i++;
@@ -861,8 +950,7 @@ void AppTest1::handleSelfMsg(cMessage* msg)
             if(timeToNextChannel <= 0.005){
                 /*next CCH channel slot send the message*/
                 sendDelayedDown(wsa,timeToNextChannel+SWITCHING_INTERVAL_11P+offSet);
-            }else
-            {
+            }else{
                 sendWSA(wsa);
             }
         }
@@ -902,6 +990,9 @@ void AppTest1::handleSelfMsg(cMessage* msg)
                 sendWSA(wsa);
             }
         }
+    }else if(msg == updateCarNeighborListEvent){
+        scheduleAt(simTime()+ WSAInterval + 1.0,updateCarNeighborListEvent);
+        updateCarNeighborList();
     }else if(msg == updateServiceEvent){
         t_channel state = getActiveChannel();
         double timeToNextChannel = timeToNextSwitch();
@@ -917,7 +1008,7 @@ void AppTest1::handleSelfMsg(cMessage* msg)
         int SrcProcId = unicastEvent->getSrcProcId();
         if(SrcProcId == myId)
         {
-            if(sendCount < 50){
+            if(sendCount < 90){
                 /*
                 t_channel state = getActiveChannel();
                 double timeToNextChannel = timeToNextSwitch();
@@ -961,21 +1052,45 @@ void AppTest1::handleSelfMsg(cMessage* msg)
                 }*/
 
                 if(myId == 0){
+                    //receiveId = 38;
+                    //receiveId = 30;
                     receiveId = 23;
+                    //receiveId = 16;
                 }else if(myId == 1){
+                    //receiveId = 36;
+                    //receiveId = 29;
                     receiveId = 22;
+                    //receiveId = 15;
                 }else if(myId == 2){
+                    //receiveId = 32;
+                    //receiveId = 26;
                     receiveId = 20;
+                    //receiveId = 14;
                 }else if(myId == 3){
+                    //receiveId = 28;
+                    //receiveId = 23;
                     receiveId = 18;
+                    //receiveId = 13;
                 }else if(myId == 4){
+                    //receiveId = 24;
+                    //receiveId = 20;
                     receiveId = 16;
+                    //receiveId = 12;
                 }else if(myId == 5){
+                    //receiveId = 20;
+                    //receiveId = 17;
                     receiveId = 14;
-                }else if(myId ==6){
+                    //receiveId = 11;
+                }else if(myId == 6){
+                    //receiveId = 16;
+                    //receiveId = 14;
                     receiveId = 12;
+                    //receiveId = 10;
                 }else if(myId== 7){
+                    //receiveId = 12;
+                    //receiveId = 11;
                     receiveId = 10;
+                    //receiveId = 9;
                 }
                 sendRepeatInfo(psid,receiveId);
                 sendCount++;
@@ -1015,7 +1130,6 @@ void AppTest1::handleSelfMsg(cMessage* msg)
         insertService(providerServiceList,service);
         sendWSAMessage("send repeat wsa message",service,0);
     }
-
 }
 void AppTest1::insertService(ServiceListType &list,cService *service)
 {
@@ -1122,6 +1236,27 @@ void AppTest1::updateCarStatusList()
         }
     }
 }
+void AppTest1::updateCarNeighborList(){
+    if(!neighborCarList.empty())
+    {
+        map<int,CarMove*>::iterator iter = neighborCarList.begin();
+        while(iter != neighborCarList.end())
+        {
+            simtime_t startTime = iter->second->getStartTime();
+            simtime_t currentTime = simTime();
+            double Interval = currentTime.dbl() - startTime.dbl();
+            double lifetime = iter->second->getLifetime();
+            if(Interval > WSAInterval && Interval > lifetime){
+                delete (iter->second);
+                neighborCarList.erase(iter);
+            }
+            if(Interval > WSAInterval && Interval < lifetime){
+                iter->second->setFlag(1);//set flag is bad
+            }
+            ++iter;
+        }
+    }
+}
 void AppTest1::updateRouteTable(){
     if(!routeTable.empty()){
         map<int,RouteEntry*>::iterator iter = routeTable.begin();
@@ -1161,17 +1296,20 @@ void AppTest1::updateServiceList(ServiceListType &list){
 double AppTest1::distance(const Coord& a,const Coord& b){
     return a.distance(b);
 }
-bool AppTest1::isSameDirection(const Coord& dir1,const Coord& dir2){
+double AppTest1::directionAngle(const Coord& dir1,const Coord& dir2){
     double arc1 = radians(dir1);
     double arc2 = radians(dir2);
     double diff = abs(arc1 - arc2);
+    return diff;
     /*two direction angle is diff than 90 degree,so they are not in the same direction*/
-    if(diff >= M_PI)
+    /*
+    if(diff >= M_PI_2)
     {
         return false;
     }else{
         return true;
     }
+    */
 }
 double AppTest1::radians(const Coord& direction)
 {
@@ -1186,6 +1324,55 @@ double AppTest1::radians(const Coord& direction)
         arc = (y/abs(y))*(M_PI - asin(y));
     }
     return arc;
+}
+double AppTest1::calculateLifetime(CarMove &carA,CarMove &carB){
+    double R = 500.0;//the radius of the communication
+    double speedA = carA.getSpeed();
+    double speedB = carB.getSpeed();
+    Coord posA = carA.getPositionAt(simTime());
+    Coord posB = carB.getPositionAt(simTime());
+    double n = abs(posB.y - posA.y);//n is represent CB length
+    double p = abs(posB.x - posA.x);//p is represent AC length
+    double m = sqrt(R*R - p*p);//m is represent CD length
+    double dist = distance(posA,posB);
+    Coord directionA = carA.getDirection();
+    Coord directionB = carB.getDirection();
+    double angle = directionAngle(directionA,directionB);
+
+    /*we have 6 situation to calculate the life time */
+    double lifetime = WSAInterval + 1.0;
+    double abs1 = abs(speedA - speedB);
+    double abs2 = abs(speedA + speedB);
+    /*1.first situation:same direction and speedA great than speedB*/
+    if(angle == 0.0 && speedA < speedB){
+        lifetime = (R - dist)/abs1;
+    }
+
+    /*2.second situation:same direction and speedA is less than speedB*/
+    if(angle == 0.0 && speedA > speedB){
+        lifetime = (R + dist)/abs1;
+    }
+
+    /*3. third situation:same direction but not in same lane and speedA is less speedB */
+    if((angle >0 && angle < M_PI_2) && speedA < speedB){
+        lifetime = (m - n)/abs1;
+    }
+
+    /*4.fourth situation:same direction but not in same lane and speedA is great than speedB*/
+    if((angle >0 && angle < M_PI_2)&& speedA > speedB){
+        lifetime = (m+n)/abs1;
+    }
+
+    /*5.five situation:opposite direction:they are opposite move*/
+    if(angle >= M_PI_2 && posB.x > posA.x){
+        lifetime = (m + n)/abs2;
+    }
+
+    /*6.six situation:opposite direction:they are Divergence motion*/
+    if(angle >= M_PI_2 && posB.x < posA.x){
+        lifetime = (m - n)/abs2;
+    }
+    return lifetime;
 }
 int AppTest1::selectNextCar(int dest)
 {
@@ -1226,6 +1413,72 @@ int AppTest1::selectNextCar(int dest)
     //not find,return -1 represent error
     return carId;
 }
+int AppTest1::selectNextCarWithNeighborCarList(int destId,Coord &destPos){
+    int carId = -1;
+    /*the neighbor car list is empty,so we no car to choose*/
+    if(neighborCarList.empty()){
+        return carId;
+    }
+
+    /*1.Test the dest car is neighbor car?*/
+    map<int,CarMove*>::iterator iter,iter1,iter2;
+    iter = neighborCarList.find(destId);
+    if(iter != neighborCarList.end()){
+        /*find the car*/
+        return destId;
+    }
+
+    Coord curPos = traci->getCurrentPosition();
+    double SD = distance(curPos,destPos);//the source and destination car distance
+    //double R = 500.0;//the communication Radius
+    /*2.use the Greedy forwarding select the next carID */
+    double nearestDist = SD;
+    for(iter1 = neighborCarList.begin(); iter1 != neighborCarList.end(); iter1++)
+    {
+        CarMove *carmove = iter1->second;
+        Coord pos = carmove->getPositionAt(simTime());
+        double ND = distance(pos,destPos);//the next car and the destination car distance
+        /*choose the car in the communication and leave the destination nearest*/
+        if(ND < nearestDist)
+        {
+            nearestDist = ND;
+            carId = iter1->first;
+        }
+    }
+
+    /*3.if the greedy forward failed,then we choose the GPSR-AD Algorithm select the forward car id*/
+    if(carId == -1){
+        double XSD = 0.5;//we choose the specific angle to compare,we assume the angle is 0.5
+        CarMove *tempMove = (neighborCarList.begin())->second;
+        Coord tempPos = tempMove->getPositionAt(simTime());
+        double MD = distance(tempPos,destPos);/*the next car and destination car distance*/
+        double MS = distance(tempPos,curPos);/*the next car and the source car distance*/
+        double angleMSD = (MS*MS + SD*SD - MD*MD)/(2*MS*SD);//the angle MSD cos() function value
+        double MSD = acos(angleMSD);//the angle MSD acos() function value
+        double GAD = MD/SD + MSD/XSD;//the GPSR-AD value
+        double smallestGAD = GAD;//the smallest GPSR-AD value
+        carId = tempMove->getCarId();
+
+        /*begin use the GPSR-AD algorithm choose the next forward car*/
+        for(iter2 = neighborCarList.begin(); iter2 != neighborCarList.end(); iter2++)
+        {
+            CarMove *carmove1 = iter2->second;
+            Coord pos1 = carmove1->getPositionAt(simTime());
+            MD = distance(pos1,destPos);
+            MS = distance(pos1,curPos);
+            angleMSD = (MS*MS + SD*SD - MD*MD)/(2*MS*SD);
+            MSD = acos(angleMSD);
+            GAD = MD/SD + MSD/XSD;
+            /*choose the smallest GAD as the next forward car*/
+            if(GAD < smallestGAD){
+                smallestGAD = GAD;
+                carId = iter2->first;
+            }
+        }
+    }
+
+    return carId;
+}
 int AppTest1::selectNextCarWithRouteTable(int dest){
     int carId = -1;// not found
     map<int,RouteEntry*>::iterator it = routeTable.find(dest);
@@ -1252,7 +1505,13 @@ void AppTest1::unicastForwardMessage(WaveShortMessage* msg){
     int destId = wsm->getRecipientAddress();
     int forwardId = -1;
     if(positionRoute){
-        forwardId = selectNextCar(destId);
+        Coord destPos = wsm->getDestPos();
+        forwardId = selectNextCarWithNeighborCarList(destId,destPos);
+        /*if the forwardId is the sender car Id,then we forbidden forward this message,so we set the forward Id as -1*/
+        if(forwardId == wsm->getSenderAddress()){
+            forwardId = -1;
+        }
+        //forwardId = selectNextCar(destId);
     }else{
         forwardId = selectNextCarWithRouteTable(destId);
     }
@@ -1361,7 +1620,15 @@ void AppTest1::unicastWSMMessage(WaveShortMessage* msg){
     int destId = wsm->getRecipientAddress();
     int forwardId = -1;
     if(positionRoute){
-        forwardId = selectNextCar(destId);
+        /*find out the destId related position*/
+        map<int,CarMove*>::iterator iter = carMoveStatus.find(destId);
+        if(iter != carMoveStatus.end())
+        {
+            CarMove *carmove = iter->second;
+            Coord destPos = carmove->getPositionAt(simTime());
+            wsm->setDestPos(destPos);
+            forwardId = selectNextCarWithNeighborCarList(destId,destPos);
+        }
     }else{
         forwardId = selectNextCarWithRouteTable(destId);
     }

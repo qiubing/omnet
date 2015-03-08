@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?fileVersion 5.0.0?>
-
-<cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage2">
+<?fileVersion 5.0.0?><cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage2">
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
 		<configuration artifactName="${ProjName}" buildProperties="" description="" errorParsers="org.eclipse.cdt.core.GmakeErrorParser;org.eclipse.cdt.core.CWDLocator;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GASErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.VCErrorParser;org.eclipse.cdt.core.MakeErrorParser" id="org.omnetpp.cdt.gnu.config.debug.1760361527" name="gcc-debug" parent="org.omnetpp.cdt.gnu.config.debug">
 			<folderInfo id="org.omnetpp.cdt.gnu.config.debug.1760361527." name="/" resourcePath="">
@@ -31,8 +29,25 @@
 					</tool>
 				</toolChain>
 			</folderInfo>
+			<folderInfo id="org.omnetpp.cdt.gnu.config.debug.1760361527.726204974" name="/" resourcePath="src/inet">
+				<toolChain id="org.omnetpp.cdt.gnu.toolchain.debug.85537786" name="GCC for OMNeT++" superClass="org.omnetpp.cdt.gnu.toolchain.debug" unusedChildren="">
+					<tool id="cdt.managedbuild.tool.gnu.archiver.base.438149490" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base.752652679"/>
+					<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.base.811701370" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.base.1394815730">
+						<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.479757794" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
+					</tool>
+					<tool id="cdt.managedbuild.tool.gnu.c.compiler.base.1433967398" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.base.741423791">
+						<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1746329099" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
+					</tool>
+					<tool id="cdt.managedbuild.tool.gnu.c.linker.base.1115584798" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.base.548956838"/>
+					<tool id="cdt.managedbuild.tool.gnu.cpp.linker.base.1164860252" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.base.1144143612"/>
+					<tool id="cdt.managedbuild.tool.gnu.assembler.base.1976530973" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.base.2085767593">
+						<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1211918685" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
+					</tool>
+				</toolChain>
+			</folderInfo>
 			<sourceEntries>
-				<entry excluding="baseMobility" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+				<entry excluding="src/inet|baseMobility" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+				<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src/inet"/>
 			</sourceEntries>
 		</configuration>
 	</storageModule>

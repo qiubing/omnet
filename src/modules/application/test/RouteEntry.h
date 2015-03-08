@@ -30,10 +30,12 @@ private:
     int distance;
     //received time stamp
     simtime_t timestamp;
+    //Sequence number
+    int seq;
 
 public:
     RouteEntry(int carId = -1):carId(carId),macAddress(carId+80000) { };
-    RouteEntry(int carId,long macAddress,int nextCarId, int distance):carId(carId),macAddress(macAddress),nextCarId(nextCarId),distance(distance) { };
+    RouteEntry(int carId,long macAddress,int nextCarId, int distance,int seq):carId(carId),macAddress(macAddress),nextCarId(nextCarId),distance(distance),seq(seq) { };
     virtual ~RouteEntry() {
         // TODO Auto-generated destructor stub
     }
@@ -77,6 +79,14 @@ public:
 
     void setTimestamp(const simtime_t& timestamp) {
         this->timestamp = timestamp;
+    }
+
+    int getSeq() const {
+        return seq;
+    }
+
+    void setSeq(int seq) {
+        this->seq = seq;
     }
 };
 

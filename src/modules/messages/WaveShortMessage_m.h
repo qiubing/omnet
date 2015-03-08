@@ -48,6 +48,7 @@
  * 	int recipientAddress = -1;
  * 	int serial = 0;
  * 	Coord senderPos;
+ * 	Coord destPos;
  * 	simtime_t timestamp = 0;
  * 	Coord direction;
  * 	double speed = 0;
@@ -102,6 +103,7 @@ class WaveShortMessage : public ::cPacket
     int recipientAddress_var;
     int serial_var;
     Coord senderPos_var;
+    Coord destPos_var;
     simtime_t timestamp_var;
     Coord direction_var;
     double speed_var;
@@ -166,6 +168,9 @@ class WaveShortMessage : public ::cPacket
     virtual Coord& getSenderPos();
     virtual const Coord& getSenderPos() const {return const_cast<WaveShortMessage*>(this)->getSenderPos();}
     virtual void setSenderPos(const Coord& senderPos);
+    virtual Coord& getDestPos();
+    virtual const Coord& getDestPos() const {return const_cast<WaveShortMessage*>(this)->getDestPos();}
+    virtual void setDestPos(const Coord& destPos);
     virtual simtime_t getTimestamp() const;
     virtual void setTimestamp(simtime_t timestamp);
     virtual Coord& getDirection();

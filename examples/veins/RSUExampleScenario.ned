@@ -14,14 +14,7 @@
 // 
 
 package veins;
-
-import org.car2x.veins.nodes.RSU;
 import org.car2x.veins.nodes.Scenario;
+network RSUExampleScenario extends Scenario {
 
-network RSUExampleScenario extends Scenario
-{
-    submodules:
-        rsu[1]: RSU {
-            @display("p=150,140;b=10,10,oval");
-        }
 }
